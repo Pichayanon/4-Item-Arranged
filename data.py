@@ -20,3 +20,5 @@ class Data:
     def get_losecount(self):
         pass
 
+    def test(self):
+        pass
