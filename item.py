@@ -2,30 +2,26 @@ from player import Player
 
 
 class Item:
-    def __init__(self, player):
-        self.player = player
-        self.symbol = ""
+    def __init__(self, player, symbol):
+        self.player = Player
+        self.symbol = symbol
         self.column = 0
 
-    def create_symbol(self, symbol):
-        self.symbol = symbol
+    @property
+    def symbol(self):
+        return self.__symbol
 
-    def set_column(self, new_column):
-        self.column = new_column
+    @symbol.setter
+    def symbol(self, new_symbol):
+        self.__symbol = new_symbol
 
-    def get_column(self):
-        return self.column
+    @property
+    def column(self):
+        return self.__column
 
-    def get_item(self):
-        return self.symbol
-
-    def get_player(self):
-        return self.player.get_name()
-
-    def get_number(self):
-        return self.player.get_number()
-
-
+    @column.setter
+    def column(self, new_column):
+        self.__column = new_column
 
 
 
