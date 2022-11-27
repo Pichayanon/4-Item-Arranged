@@ -1,8 +1,8 @@
 class Player:
-    def __init__(self, name, password):
+    def __init__(self, name, number):
         self.name = name
-        self.password = password
-        self.score = 0
+        self.number = number
+        self.score = [0, 0, 0]
 
     @property
     def name(self):
@@ -15,15 +15,6 @@ class Player:
         else:
             raise TypeError("name must be string")
 
-
-    @property
-    def password(self):
-        return self.__password
-
-    @password.setter
-    def password(self, new_password):
-        self.__password = new_password
-
     @property
     def score(self):
         return self.__score
@@ -31,5 +22,13 @@ class Player:
     @score.setter
     def score(self, new_score):
         self.__score = new_score
+
+    @property
+    def number(self):
+        return self.__number
+
+    @number.setter
+    def number(self, new_number):
+        self.__number = new_number
 
 
