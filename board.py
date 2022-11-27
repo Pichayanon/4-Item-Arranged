@@ -1,12 +1,11 @@
 from player import Player
 from item import Item
 
-
 class Board:
-    def __init__(self, lst_item, row=0, column=0):
+    def __init__(self, dic_player, row=0, column=0):
+        self.dic_player = dic_player
         self.row = row
         self.column = column
-        self.lst_item = lst_item
         self.lst_board = []
 
     def create_board(self):
@@ -15,9 +14,6 @@ class Board:
             for j in range(self.column):
                 lst_column.append(0)
             self.lst_board.append(lst_column)
-
-    def check_slot(self, item):
-        pass
 
     def display_board(self):
         space = "   "
@@ -34,26 +30,27 @@ class Board:
                 if slot == 0:
                     print(space+"┇", end="")
                 else:
-                    i = 0
-                    while True:
-                        if slot == self.lst_item[i].number:
-                            print(f"{self.lst_item[i].symbol:^3}"+"┇", end="")
-                            break
+                    for key, val in self.dic_player.items():
+                        if slot == key.number:
+                            print(f"{val[-1].symbol:^3}"+"┇", end="")
                         else:
-                            i += 1
+                            pass
             print()
         print((line * count) + "┇")
 
     def update_board(self, number):
-        i = -1
-        while True:
-            column = self.lst_item[number-1].column
-            if self.lst_board[i][column] == 0:
-                self.lst_board[i][column] = number
-                break
-            else:
-                i += -1
-
+        for key, val in self.dic_player.items():
+            i = -1
+            while True:
+                if key.number == number:
+                    column = val[-1].column
+                    if self.lst_board[i][column] == 0:
+                        self.lst_board[i][column] = number
+                        break
+                    else:
+                        i -= 1
+                else:
+                    break
 
     def check_winner(self):
         r = len(self.lst_board)
