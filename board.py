@@ -21,32 +21,28 @@ class Board:
 
     def display_board(self):
         space = "   "
-        line = "|---"
+        line = "┇━━━"
         count = len(self.lst_board[0])
-        print((line * count) + "|")
+        print((line * count) + "┇")
         for i in range(len(self.lst_board[0])):
-            print(f"|-{i+1}-", end="")
-        print("|")
+            print(f"┇{i+1:^3}", end="")
+        print("┇")
         for row in self.lst_board:
-            print((line * count) + "|")
-            print("|", end="")
+            print((line * count) + "┇")
+            print("┇", end="")
             for slot in row:
                 if slot == 0:
-                    print(space+"|", end="")
+                    print(space+"┇", end="")
                 else:
                     i = 0
                     while True:
                         if slot == self.lst_item[i].number:
-                            print(f"{self.lst_item[i].symbol:^3}"+"|", end="")
+                            print(f"{self.lst_item[i].symbol:^3}"+"┇", end="")
                             break
                         else:
                             i += 1
             print()
-        print((line * count) + "|")
-        for i in range(len(self.lst_board[0])):
-            print(f"|-{i+1}-", end="")
-        print("|")
-        print((line * count) + "|")
+        print((line * count) + "┇")
 
     def update_board(self, number):
         i = -1
@@ -62,14 +58,15 @@ class Board:
     def check_winner(self):
         r = len(self.lst_board)
         c = len(self.lst_board[0])
-        while c-4 >= 0 and r-4 >= 0:
+        while c-4 >= 0:
             for row in self.lst_board:
                 if row[c-1] == row[c-2] == row[c-3] == row[c-4] != 0:
                     return True
-            for column in self.lst_board[0]:
+            c -= 1
+        while r-4 >= 0:
+            for column in range(len(self.lst_board[0])):
                 if self.lst_board[r-1][column] == self.lst_board[r-2][column] == self.lst_board[r-3][column] == self.lst_board[r-4][column] != 0:
                     return True
-            c -= 1
             r -= 1
         n = len(self.lst_board)
         while n-4 >= 0:
