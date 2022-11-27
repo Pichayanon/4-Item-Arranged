@@ -18,15 +18,18 @@ def choose_size_board():
     print("╚═════════════════════════════════════════════════════════.★.╝")
     size = int(input("Please choose choice: "))
     if size == 1:
-        column_ = 6
-        row_ = 7
+        column_, row_ = 6, 7
     elif size == 2:
-        column_ = 7
-        row_ = 8
+        column_, row_ = 7, 8
     elif size == 3:
-        column_ = 8
-        row_ = 9
+        column_, row_ = 8, 9
     return column_, row_
+
+def set_player(number):
+    name = str(input(f"Player{number}, Enter name: "))
+    password = input(f"{name}, Enter password: ")
+    return name, password
+
 
 
 print("╔.★.═════════════════════════════════════════════════════════╗")
@@ -41,19 +44,17 @@ if choice == 1:
     if many_player == 2:
         column, row = choose_size_board()
         # Set Player1
-        name_1 = str(input("Player1, Enter name: "))
-        password_1 = input("Player1, Enter password: ")
+        name_1, password_1 = set_player(1)
         player_1 = Player(name_1, password_1)
         # check
-        symbol_1 = input("Player1, Enter symbol: ")
+        symbol_1 = input(f"{name_1}, Enter symbol: ")
         item_1 = Item(player_1, symbol_1, 1)
         print("══════════════════════════════════════════════════════════════")
         # Set Player2
-        name_2 = str(input("Player2, Enter name: "))
-        password_2 = input("Player2, Enter password: ")
+        name_2, password_2 = set_player(2)
         player_2 = Player(name_2, password_2)
         # check
-        symbol_2 = input("Player2, Enter symbol: ")
+        symbol_2 = input(f"{name_2}, Enter symbol: ")
         item_2 = Item(player_2, symbol_2, 2)
 
         board = Board([item_1, item_2], column, row)
@@ -82,30 +83,27 @@ if choice == 1:
         column, row = choose_size_board()
 
         # Set Player1
-        name_1 = str(input("Player1, Enter name: "))
-        password_1 = input("Player1, Enter password: ")
+        name_1, password_1 = set_player(1)
         player_1 = Player(name_1, password_1)
         # check
-        symbol_1 = input("Player1, Enter symbol: ")
+        symbol_1 = input(f"{name_1}, Enter symbol: ")
         item_1 = Item(player_1, symbol_1, 1)
         print("══════════════════════════════════════════════════════════════")
         # Set Player2
-        name_2 = str(input("Player2, Enter name: "))
-        password_2 = input("Player2, Enter password: ")
+        name_2, password_2 = set_player(2)
         player_2 = Player(name_2, password_2)
         # check
-        symbol_2 = input("Player2, Enter symbol: ")
+        symbol_2 = input(f"{name_2}, Enter symbol: ")
         item_2 = Item(player_2, symbol_2, 2)
         print("══════════════════════════════════════════════════════════════")
         # Set Player3
-        name_3 = str(input("Player3, Enter name: "))
-        password_3 = input("Player3, Enter password: ")
+        name_3, password_3 = set_player(3)
         player_3 = Player(name_3, password_3)
         # check
-        symbol_3 = input("Player3, Enter symbol: ")
+        symbol_3 = input(f"{name_3}, Enter symbol: ")
         item_3 = Item(player_3, symbol_3, 3)
         print("══════════════════════════════════════════════════════════════")
-        board = Board([item_1, item_2,item_3], column, row)
+        board = Board([item_1, item_2, item_3], column, row)
         board.create_board()
         board.display_board()
 
@@ -137,35 +135,31 @@ if choice == 1:
         column, row = choose_size_board()
 
         # Set Player1
-        name_1 = str(input("Player1, Enter name: "))
-        password_1 = input("Player1, Enter password: ")
+        name_1, password_1 = set_player(1)
         player_1 = Player(name_1, password_1)
         # check
-        symbol_1 = input("Player1, Enter symbol: ")
+        symbol_1 = input(f"{name_1}, Enter symbol: ")
         item_1 = Item(player_1, symbol_1, 1)
         print("══════════════════════════════════════════════════════════════")
         # Set Player2
-        name_2 = str(input("Player2, Enter name: "))
-        password_2 = input("Player2, Enter password: ")
+        name_2, password_2 = set_player(2)
         player_2 = Player(name_2, password_2)
         # check
-        symbol_2 = input("Player2, Enter symbol: ")
+        symbol_2 = input(f"{name_2}, Enter symbol: ")
         item_2 = Item(player_2, symbol_2, 2)
         print("══════════════════════════════════════════════════════════════")
         # Set Player3
-        name_3 = str(input("Player3, Enter name: "))
-        password_3 = input("Player3, Enter password: ")
+        name_3, password_3 = set_player(3)
         player_3 = Player(name_3, password_3)
         # check
-        symbol_3 = input("Player3, Enter symbol: ")
+        symbol_3 = input(f"{name_3}, Enter symbol: ")
         item_3 = Item(player_3, symbol_3, 3)
         print("══════════════════════════════════════════════════════════════")
         # Set Player4
-        name_4 = str(input("Player4, Enter name: "))
-        password_4 = input("Player4, Enter password: ")
+        name_4, password_4 = set_player(4)
         player_4 = Player(name_4, password_4)
         # check
-        symbol_4 = input("Player3, Enter symbol: ")
+        symbol_4 = input(f"{name_4}, Enter symbol: ")
         item_4 = Item(player_4, symbol_4, 4)
         print("══════════════════════════════════════════════════════════════")
         board = Board([item_1, item_2, item_3, item_4], column, row)
