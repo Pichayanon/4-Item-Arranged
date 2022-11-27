@@ -18,19 +18,12 @@ def choose_size_board():
     print("╚═════════════════════════════════════════════════════════.★.╝")
     size = int(input("Please choose choice: "))
     if size == 1:
-        column_, row_ = 6, 7
+        row_, column_ = 6, 7
     elif size == 2:
-        column_, row_ = 7, 8
+        row_, column_ = 7, 8
     elif size == 3:
-        column_, row_ = 8, 9
-    return column_, row_
-
-def set_player(number):
-    name = str(input(f"Player{number}, Enter name: "))
-    password = input(f"{name}, Enter password: ")
-    return name, password
-
-
+        row_, column_ = 8, 9
+    return row_, column_
 
 print("╔.★.═════════════════════════════════════════════════════════╗")
 print("            Welcome to 4 Item Arranged Game                   ")
@@ -42,183 +35,132 @@ choice = int(input("Please choose choice: "))
 if choice == 1:
     many_player = choose_many_player()
     if many_player == 2:
-        column, row = choose_size_board()
-        # Set Player1
-        name_1, password_1 = set_player(1)
-        player_1 = Player(name_1, password_1)
-        # check
-        symbol_1 = input(f"{name_1}, Enter symbol: ")
-        item_1 = Item(player_1, symbol_1, 1)
-        print("══════════════════════════════════════════════════════════════")
-        # Set Player2
-        name_2, password_2 = set_player(2)
-        player_2 = Player(name_2, password_2)
-        # check
-        symbol_2 = input(f"{name_2}, Enter symbol: ")
-        item_2 = Item(player_2, symbol_2, 2)
 
-        board = Board([item_1, item_2], column, row)
-        print("══════════════════════════════════════════════════════════════")
+        name1 = input(f"Player1, Enter name: ")
+        player1 = Player(name1, 1)
+        symbol1 = input("Player1, Please enter symbol: ")
+
+        name2 = input(f"Player2, Enter name: ")
+        player2 = Player(name2, 2)
+        symbol2 = input("Player2, Please enter symbol: ")
+
+        row, column = choose_size_board()
+        board = Board({player1: [], player2: []}, row, column)
         board.create_board()
         board.display_board()
-
-        # Player Turn
         while True:
-            item_1.column = int(input("Player1, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum1 = int(input("P1-Please enter column: "))-1
+            item1 = Item(colum1, symbol1)
+            board.dic_player[player1].append(item1)
             board.update_board(1)
             board.display_board()
             if board.check_winner():
                 print("Player1 Win!!!")
                 break
-            item_2.column = int(input("Player2, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum2 = int(input("P2-Please enter column: ")) - 1
+            item2 = Item(colum2, symbol2)
+            board.dic_player[player2].append(item2)
             board.update_board(2)
             board.display_board()
             if board.check_winner():
                 print("Player2 Win!!!")
                 break
+    if many_player == 3:
+        name1 = input(f"Player1, Enter name: ")
+        player1 = Player(name1, 1)
+        symbol1 = input("Player1, Please enter symbol: ")
 
-    elif many_player == 3:
-        column, row = choose_size_board()
+        name2 = input(f"Player2, Enter name: ")
+        player2 = Player(name2, 2)
+        symbol2 = input("Player2, Please enter symbol: ")
 
-        # Set Player1
-        name_1, password_1 = set_player(1)
-        player_1 = Player(name_1, password_1)
-        # check
-        symbol_1 = input(f"{name_1}, Enter symbol: ")
-        item_1 = Item(player_1, symbol_1, 1)
-        print("══════════════════════════════════════════════════════════════")
-        # Set Player2
-        name_2, password_2 = set_player(2)
-        player_2 = Player(name_2, password_2)
-        # check
-        symbol_2 = input(f"{name_2}, Enter symbol: ")
-        item_2 = Item(player_2, symbol_2, 2)
-        print("══════════════════════════════════════════════════════════════")
-        # Set Player3
-        name_3, password_3 = set_player(3)
-        player_3 = Player(name_3, password_3)
-        # check
-        symbol_3 = input(f"{name_3}, Enter symbol: ")
-        item_3 = Item(player_3, symbol_3, 3)
-        print("══════════════════════════════════════════════════════════════")
-        board = Board([item_1, item_2, item_3], column, row)
+        name3 = input(f"Player3, Enter name: ")
+        player3 = Player(name3, 3)
+        symbol3 = input("Player3, Please enter symbol: ")
+
+        row, column = choose_size_board()
+        board = Board({player1: [], player2: [], player3: []}, row, column)
         board.create_board()
         board.display_board()
-
-        # Player Turn
         while True:
-            item_1.column = int(input("Player1, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum1 = int(input("P1-Please enter column: "))-1
+            item1 = Item(colum1, symbol1)
+            board.dic_player[player1].append(item1)
             board.update_board(1)
             board.display_board()
             if board.check_winner():
                 print("Player1 Win!!!")
                 break
-            item_2.column = int(input("Player2, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum2 = int(input("P2-Please enter column: ")) - 1
+            item2 = Item(colum2, symbol2)
+            board.dic_player[player2].append(item2)
             board.update_board(2)
             board.display_board()
             if board.check_winner():
                 print("Player2 Win!!!")
                 break
-            item_3.column = int(input("Player3, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum3 = int(input("P3-Please enter column: ")) - 1
+            item3 = Item(colum3, symbol3)
+            board.dic_player[player3].append(item3)
             board.update_board(3)
             board.display_board()
             if board.check_winner():
                 print("Player3 Win!!!")
                 break
+    if many_player == 4:
+        name1 = input(f"Player1, Enter name: ")
+        player1 = Player(name1, 1)
+        symbol1 = input("Player1, Please enter symbol: ")
 
-    elif many_player == 4:
-        column, row = choose_size_board()
+        name2 = input(f"Player2, Enter name: ")
+        player2 = Player(name2, 2)
+        symbol2 = input("Player2, Please enter symbol: ")
 
-        # Set Player1
-        name_1, password_1 = set_player(1)
-        player_1 = Player(name_1, password_1)
-        # check
-        symbol_1 = input(f"{name_1}, Enter symbol: ")
-        item_1 = Item(player_1, symbol_1, 1)
-        print("══════════════════════════════════════════════════════════════")
-        # Set Player2
-        name_2, password_2 = set_player(2)
-        player_2 = Player(name_2, password_2)
-        # check
-        symbol_2 = input(f"{name_2}, Enter symbol: ")
-        item_2 = Item(player_2, symbol_2, 2)
-        print("══════════════════════════════════════════════════════════════")
-        # Set Player3
-        name_3, password_3 = set_player(3)
-        player_3 = Player(name_3, password_3)
-        # check
-        symbol_3 = input(f"{name_3}, Enter symbol: ")
-        item_3 = Item(player_3, symbol_3, 3)
-        print("══════════════════════════════════════════════════════════════")
-        # Set Player4
-        name_4, password_4 = set_player(4)
-        player_4 = Player(name_4, password_4)
-        # check
-        symbol_4 = input(f"{name_4}, Enter symbol: ")
-        item_4 = Item(player_4, symbol_4, 4)
-        print("══════════════════════════════════════════════════════════════")
-        board = Board([item_1, item_2, item_3, item_4], column, row)
+        name3 = input(f"Player3, Enter name: ")
+        player3 = Player(name3, 3)
+        symbol3 = input("Player3, Please enter symbol: ")
+
+        name4 = input(f"Player4, Enter name: ")
+        player4 = Player(name4, 4)
+        symbol4 = input("Player4, Please enter symbol: ")
+
+        row, column = choose_size_board()
+        board = Board({player1: [], player2: [], player3: [], player4: []}, row, column)
         board.create_board()
         board.display_board()
-
-        # Player Turn
         while True:
-            item_1.column = int(input("Player1, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum1 = int(input("P1-Please enter column: ")) - 1
+            item1 = Item(colum1, symbol1)
+            board.dic_player[player1].append(item1)
             board.update_board(1)
             board.display_board()
             if board.check_winner():
                 print("Player1 Win!!!")
                 break
-            item_2.column = int(input("Player2, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum2 = int(input("P2-Please enter column: ")) - 1
+            item2 = Item(colum2, symbol2)
+            board.dic_player[player2].append(item2)
             board.update_board(2)
             board.display_board()
             if board.check_winner():
                 print("Player2 Win!!!")
                 break
-            item_3.column = int(input("Player3, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum3 = int(input("P3-Please enter column: ")) - 1
+            item3 = Item(colum3, symbol3)
+            board.dic_player[player3].append(item3)
             board.update_board(3)
             board.display_board()
             if board.check_winner():
                 print("Player3 Win!!!")
                 break
-            item_4.column = int(input("Player4, Enter column: ")) - 1
-            print("══════════════════════════════════════════════════════════════")
+            colum4 = int(input("P4-Please enter column: ")) - 1
+            item4 = Item(colum4, symbol4)
+            board.dic_player[player4].append(item4)
             board.update_board(4)
             board.display_board()
             if board.check_winner():
                 print("Player4 Win!!!")
                 break
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
