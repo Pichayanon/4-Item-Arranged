@@ -127,7 +127,7 @@ if choice == 1:
             board.update_board(3)
             board.display_board()
             if board.check_winner():
-                print(f"{player2.name} Win!!!")
+                print(f"{player3.name} Win!!!")
                 player1.update_player("lose")
                 player2.update_player("lose")
                 player3.update_player("win")
@@ -179,8 +179,9 @@ if choice == 1:
             board.dic_player[player3].append(item3)
             board.update_board(3)
             board.display_board()
+
             if board.check_winner():
-                print(f"{player2.name} Win!!!")
+                print(f"{player3.name} Win!!!")
                 player1.update_player("lose")
                 player2.update_player("lose")
                 player3.update_player("win")
@@ -192,7 +193,7 @@ if choice == 1:
             board.update_board(4)
             board.display_board()
             if board.check_winner():
-                print(f"{player2.name} Win!!!")
+                print(f"{player4.name} Win!!!")
                 player1.update_player("lose")
                 player2.update_player("lose")
                 player3.update_player("lose")
@@ -210,7 +211,6 @@ elif choice == 2:
         print(player1.get_lose())
     elif choice == 3:
         print(player1.get_winrate())
-
 
 
 
