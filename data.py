@@ -22,23 +22,33 @@ class Data:
         except FileNotFoundError:
             with open("data.json", "w") as data_file:
                 json.dump(new_player, data_file, indent=4)
+
+    def get_password(self, player):
+        try:
+            with open("data.json", "r") as data_file:
+                data = json.load(data_file)
+        except FileNotFoundError:
+            print("No data file fount")
+        else:
+            return data[player.name]["password"]
+
+    def check_player(self, player):
+        try:
+            with open("data.json", "r") as data_file:
+                data = json.load(data_file)
+        except FileNotFoundError:
+            print("No data file fount")
         else:
             lst_name = [name for name in data.keys()]
             if player.name in lst_name:
-                if player.password == data[player.name]["password"]:
-                    data.update(new_player)
-                    with open("data.json", "w") as data_file:
-                        json.dump(data, data_file, indent=4)
-                else:
-                    print("wrong password")
+                return True
             else:
-                data.update(new_player)
-                with open("data.json", "w") as data_file:
-                    json.dump(data, data_file, indent=4)
+                return False
+
     def get_information(self, player, inform):
         try:
             with open("data.json", "r") as data_file:
-                data_dict = json.load(data_file)
+                data = json.load(data_file)
         except FileNotFoundError:
             print("No data file fount")
         else:
@@ -52,15 +62,18 @@ class Data:
     def update_data(self, player, status):
         try:
             with open("data.json", "r") as data_file:
-                data_dict = json.load(data_file)
+                data = json.load(data_file)
         except FileNotFoundError:
             print("No data file fount")
         else:
             if status == "win":
                 player.score[0] += 1
+                data[player.name]["score"]["win"] += 1
             elif status == "lose":
                 player.score[1] += 1
+                data[player.name]["score"]["lose"] += 1
             elif status == "draw":
                 player.score[2] += 1
+                data[player.name]["score"]["draw"] += 1
             with open("data.json", "w") as data_file:
-                json.dump(data_dict, data_file, indent=4)
+                json.dump(data, data_file, indent=4)

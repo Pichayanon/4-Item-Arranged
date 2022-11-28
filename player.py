@@ -7,7 +7,6 @@ class Player:
         self.data = data
         data.create_player(self)
 
-
     @property
     def name(self):
         return self.__name
@@ -51,8 +50,17 @@ class Player:
     def score(self, new_score):
         self.__score = new_score
 
+    def check_player(self):
+        return self.data.check_player(self)
+
+    def check_password(self):
+        if self.data.get_password(self) == self.password:
+            return True
+        else:
+            return False
+
     def update_player(self, status):
-        self.data.update_data(status)
+        self.data.update_data(self, status)
 
     def get_win(self):
         print(self.data.get_information(self, "win"))
