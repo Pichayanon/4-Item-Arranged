@@ -1,8 +1,12 @@
 class Player:
-    def __init__(self, name, number):
+    def __init__(self, name, password, data, number=0, score=[0, 0, 0]):
         self.name = name
+        self.password = password
         self.number = number
-        self.score = [0, 0, 0]
+        self.score = score
+        self.data = data
+        data.create_player(self)
+
 
     @property
     def name(self):
@@ -16,12 +20,20 @@ class Player:
             raise TypeError("name must be string")
 
     @property
-    def score(self):
-        return self.__score
+    def password(self):
+        return self.__password
 
-    @score.setter
-    def score(self, new_score):
-        self.__score = new_score
+    @password.setter
+    def password(self, new_password):
+        self.__password = new_password
+
+    @property
+    def data(self):
+        return self.__data
+
+    @data.setter
+    def data(self, new_data):
+        self.__data = new_data
 
     @property
     def number(self):
@@ -30,5 +42,33 @@ class Player:
     @number.setter
     def number(self, new_number):
         self.__number = new_number
+
+    @property
+    def score(self):
+        return self.__score
+
+    @score.setter
+    def score(self, new_score):
+        self.__score = new_score
+
+    def update_player(self, status):
+        self.data.update_data(status)
+
+    def get_win(self):
+        print(self.data.get_information(self, "win"))
+
+    def get_lose(self):
+        print(self.data.get_information(self, "lose"))
+
+    def get_draw(self):
+        print(self.data.get_information(self, "draw"))
+
+    def get_winrate(self):
+        win = self.data.get_information(self, "win")
+        lose = self.data.get_information(self, "lose")
+        draw = self.data.get_information(self, "draw")
+        print(win/(win+lose+draw))
+
+
 
 
