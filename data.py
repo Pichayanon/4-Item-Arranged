@@ -22,6 +22,15 @@ class Data:
         except FileNotFoundError:
             with open("data.json", "w") as data_file:
                 json.dump(new_player, data_file, indent=4)
+        else:
+            lst_name = [name for name in data.keys()]
+            if player.name in lst_name:
+                pass
+            else:
+                data.update(new_player)
+                with open("data.json", "w") as data_file:
+                    json.dump(data, data_file, indent=4)
+
 
     def get_password(self, player):
         try:
@@ -32,7 +41,7 @@ class Data:
         else:
             return data[player.name]["password"]
 
-    def check_player(self, player):
+    def get_lst_player(self):
         try:
             with open("data.json", "r") as data_file:
                 data = json.load(data_file)
@@ -40,10 +49,7 @@ class Data:
             print("No data file fount")
         else:
             lst_name = [name for name in data.keys()]
-            if player.name in lst_name:
-                return True
-            else:
-                return False
+            return lst_name
 
     def get_information(self, player, inform):
         try:

@@ -51,7 +51,11 @@ class Player:
         self.__score = new_score
 
     def check_player(self):
-        return self.data.check_player(self)
+        lst = self.data.get_lst_player()
+        if self.name in lst:
+            return True
+        else:
+            return False
 
     def check_password(self):
         if self.data.get_password(self) == self.password:
@@ -76,7 +80,6 @@ class Player:
         lose = self.data.get_information(self, "lose")
         draw = self.data.get_information(self, "draw")
         print(win/(win+lose+draw))
-
 
 
 
