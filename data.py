@@ -2,8 +2,8 @@ from player import Player
 import json
 
 class Data:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, filename):
+        self.filename = filename
 
     def create_player(self, player):
         new_player = {
@@ -17,10 +17,10 @@ class Data:
             }
         }
         try:
-            with open("data.json", "r") as data_file:
+            with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
         except FileNotFoundError:
-            with open("data.json", "w") as data_file:
+            with open(self.filename, "w") as data_file:
                 json.dump(new_player, data_file, indent=4)
         else:
             lst_name = [name for name in data.keys()]
@@ -28,13 +28,12 @@ class Data:
                 pass
             else:
                 data.update(new_player)
-                with open("data.json", "w") as data_file:
+                with open(self.filename, "w") as data_file:
                     json.dump(data, data_file, indent=4)
-
 
     def get_password(self, player):
         try:
-            with open("data.json", "r") as data_file:
+            with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
         except FileNotFoundError:
             print("No data file fount")
@@ -43,7 +42,7 @@ class Data:
 
     def get_lst_player(self):
         try:
-            with open("data.json", "r") as data_file:
+            with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
         except FileNotFoundError:
             print("No data file fount")
@@ -53,21 +52,21 @@ class Data:
 
     def get_information(self, player, inform):
         try:
-            with open("data.json", "r") as data_file:
+            with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
         except FileNotFoundError:
             print("No data file fount")
         else:
             if inform == "win":
-                return player.score[0]
+                return data[player.name]["score"]["win"]
             elif inform == "lose":
-                return player.score[1]
+                return data[player.name]["score"]["lose"]
             elif inform == "draw":
-                return player.score[2]
+                return data[player.name]["score"]["draw"]
 
     def update_data(self, player, status):
         try:
-            with open("data.json", "r") as data_file:
+            with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
         except FileNotFoundError:
             print("No data file fount")
@@ -81,5 +80,5 @@ class Data:
             elif status == "draw":
                 player.score[2] += 1
                 data[player.name]["score"]["draw"] += 1
-            with open("data.json", "w") as data_file:
+            with open(self.filename, "w") as data_file:
                 json.dump(data, data_file, indent=4)

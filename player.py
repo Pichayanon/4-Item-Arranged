@@ -51,8 +51,8 @@ class Player:
         self.__score = new_score
 
     def check_player(self):
-        lst = self.data.get_lst_player()
-        if self.name in lst:
+        lst_name = self.data.get_lst_player()
+        if self.name in lst_name:
             return True
         else:
             return False
@@ -67,19 +67,17 @@ class Player:
         self.data.update_data(self, status)
 
     def get_win(self):
-        print(self.data.get_information(self, "win"))
+        return self.data.get_information(self, "win")
 
     def get_lose(self):
-        print(self.data.get_information(self, "lose"))
+        return self.data.get_information(self, "lose")
 
     def get_draw(self):
-        print(self.data.get_information(self, "draw"))
+        return self.data.get_information(self, "draw")
 
     def get_winrate(self):
         win = self.data.get_information(self, "win")
         lose = self.data.get_information(self, "lose")
         draw = self.data.get_information(self, "draw")
-        print(win/(win+lose+draw))
-
-
+        return win/(win+lose+draw)
 
