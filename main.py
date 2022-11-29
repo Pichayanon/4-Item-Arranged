@@ -7,8 +7,8 @@ import random
 def choose_many_player():
     print("╔.★.═════════════════════════════════════════════════════════╗")
     print("          How many player do you want to play                 ")
-    print("          1 Player                                         ")
-    print("          2 Player                                         ")
+    print("          1 Player                                            ")
+    print("          2 Player                                            ")
     print("╚═════════════════════════════════════════════════════════.★.╝")
     player = int(input("How many player do you want to play: "))
     return player
@@ -74,6 +74,8 @@ if choice == 1:
         round_ = 0
         while True:
             colum1 = int(input(f"{player1.name}, Please enter column: "))-1
+            while not board.check_slot(colum1):
+                colum1 = int(input(f"{colum1 + 1} is full, Please enter column again: "))-1
             item1 = Item(colum1, symbol1)
             board.dic_player[player1].append(item1)
             board.update_board(1)
@@ -86,6 +88,9 @@ if choice == 1:
                 round_ += 1
             colum_bot = random.randint(0, board_column-1)
             print(f"Bot, colum: {colum_bot}")
+            while not board.check_slot(colum_bot):
+                colum_bot = random.randint(0, board_column-1)
+                print(f"{colum_bot-1} is full, Bot select new colum: {colum_bot}")
             item_bot = Item(colum_bot, symbol_bot)
             board.dic_player[bot].append(item_bot)
             board.update_board(99999)
