@@ -9,6 +9,7 @@ def choose_many_player():
     print("          How many player do you want to play                 ")
     print("          1 Player                                            ")
     print("          2 Player                                            ")
+    print("          3 Player                                            ")
     print("╚═════════════════════════════════════════════════════════.★.╝")
     player = int(input("How many player do you want to play: "))
     return player
@@ -38,13 +39,13 @@ def set_player(number, data_):
             return player
         else:
             n = 0
+            print("Wrong password, You can try again 3 time.")
             while not data_.check_password(player):
                 if n == 3:
                     n -= 2
                     return set_player(number, data_)
                 else:
                     n += 1
-                print("Wrong password, You can try again.")
                 password = input(f"Enter password again round {n}:  ")
                 player = Player(name, password, data_, number)
             return player
@@ -79,7 +80,7 @@ if choice == 1:
         print(f"▶ How many player: {many_player} Player")
         print(f"▶ Board size: {board_row}x{board_column}")
         player1 = set_player(1, data)
-        symbol1 = set_symbol(["x", "o", "+"])
+        symbol1 = set_symbol(["X", "O", "#"])
         bot = set_bot(data)
         symbol_bot = "*"
         board = Board({player1: [], bot: []}, board_row, board_column)
@@ -127,7 +128,7 @@ if choice == 1:
         board_row, board_column = choose_size_board()
         print(f"▶ Many player: {many_player} Player")
         print(f"▶ Board size: {board_row}x{board_column}")
-        symbol_can_use = ["*", "x", "o", "+"]
+        symbol_can_use = ["*", "X", "O", "#"]
         player1 = set_player(1, data)
         symbol1 = set_symbol(symbol_can_use)
         player2 = set_player(2, data)
@@ -177,7 +178,85 @@ if choice == 1:
                 data.update_data(player1, "draw")
                 data.update_data(player2, "draw")
                 break
+    elif many_player == 3:
+        board_row, board_column = choose_size_board()
+        print(f"▶ Many player: {many_player} Player")
+        print(f"▶ Board size: {board_row}x{board_column}")
+        symbol_can_use = ["*", "X", "O", "#"]
+        player1 = set_player(1, data)
+        symbol1 = set_symbol(symbol_can_use)
+        symbol_can_use.remove(symbol1)
+        player2 = set_player(2, data)
+        symbol2 = set_symbol(symbol_can_use)
+        symbol_can_use.remove(symbol2)
+        player3 = set_player(3, data)
+        symbol3 = set_symbol(symbol_can_use)
+        board = Board({player1: [], player2: [], player3: []}, board_row, board_column)
+        board.create_board()
+        board.display_board()
+        round_ = 0
+        while True:
+            colum1 = int(input(f"{player1.name}, Please enter column: "))-1
+            while colum1 > board_column-1:
+                colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
+            while not board.check_slot(colum1):
+                colum1 = int(input(f"{colum1+1} is full, Please enter column again: "))-1
+            item1 = Item(colum1, symbol1)
+            board.dic_player[player1].append(item1)
+            board.update_board(1)
+            board.display_board()
+            if board.check_winner():
+                print(f"{player1.name} Win!!!")
+                data.update_data(player1, "win")
+                data.update_data(player2, "lose")
+                data.update_data(player3, "lose")
+                break
+            else:
+                round_ += 1
 
+            colum2 = int(input(f"{player2.name}, Please enter column: "))-1
+            while colum2 > board_column-1:
+                colum2 = int(input(f"No column {colum2 + 1}, Please enter column again: "))-1
+            while not board.check_slot(colum2):
+                colum2 = int(input(f"{colum2+1} is full, Please enter column again: "))-1
+            item2 = Item(colum2, symbol2)
+            board.dic_player[player2].append(item2)
+            board.update_board(2)
+            board.display_board()
+            if board.check_winner():
+                print(f"{player2.name} Win!!!")
+                data.update_data(player1, "lose")
+                data.update_data(player2, "win")
+                data.update_data(player3, "lose")
+                break
+            else:
+                round_ += 1
+
+            colum3 = int(input(f"{player3.name}, Please enter column: "))-1
+            while colum3 > board_column-1:
+                colum3 = int(input(f"No column {colum3 + 1}, Please enter column again: "))-1
+            while not board.check_slot(colum3):
+                colum3 = int(input(f"{colum3+1} is full, Please enter column again: "))-1
+            item3 = Item(colum3, symbol3)
+            board.dic_player[player3].append(item3)
+            board.update_board(3)
+            board.display_board()
+            if board.check_winner():
+                print(f"{player3.name} Win!!!")
+                data.update_data(player1, "lose")
+                data.update_data(player2, "lose")
+                data.update_data(player3, "win")
+                break
+            else:
+                round_ += 1
+
+            if round_ == (board_column*board_row):
+                print("This game is draw!!!!")
+                data.update_data(player1, "draw")
+                data.update_data(player2, "draw")
+                data.update_data(player3, "draw")
+                break
+        pass
 elif choice == 2:
     print("╔.★.═════════════════════════════════════════════════════════╗")
     print("            1. Show win game                                  ")
@@ -196,140 +275,6 @@ elif choice == 2:
         print(f"▶ Name: {player_show.name}")
         print(f"▶ Winrate: {player_show.get_winrate()} percent:")
 
-
-
-
-
-    # elif many_player == 2:
-    #     board_row, board_column = choose_size_board()
-    #     print(f"▶ Many player : {many_player} Player")
-    #     print(f"▶ Board size : {board_row}x{board_column}")
-    #     player1 = set_player(1)
-    #     symbol1 = input(f"{player1.name}, Please enter symbol: ")
-    #     player2 = set_player(2)
-    #     symbol2 = input(f"{player2.name}, Please enter symbol: ")
-    #     player3 = set_player(3)
-    #     symbol3 = input(f"{player3.name}, Please enter symbol: ")
-    #     board = Board({player1: [], player2: [], player3: []},
-    #                   board_row, board_column)
-    #     board.create_board()
-    #     board.display_board()
-    #     round_ = 0
-    #     while True:
-    #         colum1 = int(input(f"{player1.name}, Please enter column: ")) - 1
-    #         item1 = Item(colum1, symbol1)
-    #         board.dic_player[player1].append(item1)
-    #         board.update_board(1)
-    #         board.display_board()
-    #         if board.check_winner():
-    #             print(f"{player1.name} Win!!!")
-    #             player1.update_player("win")
-    #             player2.update_player("lose")
-    #             player3.update_player("lose")
-    #             break
-    #         else:
-    #             round_ += 1
-    #         colum2 = int(input(f"{player2.name}, Please enter column: ")) - 1
-    #         item2 = Item(colum2, symbol2)
-    #         board.dic_player[player2].append(item2)
-    #         board.update_board(2)
-    #         board.display_board()
-    #         if board.check_winner():
-    #             print(f"{player2.name} Win!!!")
-    #             player1.update_player("lose")
-    #             player2.update_player("win")
-    #             player3.update_player("lose")
-    #             break
-    #         else:
-    #             round_ += 1
-    #         colum3 = int(input(f"{player3.name}, Please enter column: ")) - 1
-    #         item3 = Item(colum3, symbol3)
-    #         board.dic_player[player3].append(item3)
-    #         board.update_board(3)
-    #         board.display_board()
-    #         if board.check_winner():
-    #             print(f"{player3.name} Win!!!")
-    #             player1.update_player("lose")
-    #             player2.update_player("lose")
-    #             player3.update_player("win")
-    #             break
-    #         else:
-    #             round_ += 1
-    #
-    #         if round_ == (board_column*board_row):
-    #             print("This game is draw!!!!")
-    #             player1.update_player("draw")
-    #             player2.update_player("draw")
-    #             player3.update_player("draw")
-    #             break
-
-
-    # elif many_player == 3:
-    #     board_row, board_column = choose_size_board()
-    #     print(f"▶ Many player : {many_player} Player")
-    #     print(f"▶ Board size : {board_row}x{board_column}")
-    #     player1 = set_player(1)
-    #     symbol1 = input(f"{player1.name}, Please enter symbol: ")
-    #     player2 = set_player(2)
-    #     symbol2 = input(f"{player2.name}, Please enter symbol: ")
-    #     player3 = set_player(3)
-    #     symbol3 = input(f"{player3.name}, Please enter symbol: ")
-    #     player4 = set_player(4)
-    #     symbol4 = input(f"{player4.name}, Please enter symbol: ")
-    #     board = Board({player1: [], player2: [], player3: [], player4: []},
-    #                   board_row, board_column)
-    #     board.create_board()
-    #     board.display_board()
-    #     while True:
-    #         colum1 = int(input(f"{player1.name}, Please enter column: ")) - 1
-    #         item1 = Item(colum1, symbol1)
-    #         board.dic_player[player1].append(item1)
-    #         board.update_board(1)
-    #         board.display_board()
-    #         if board.check_winner():
-    #             print(f"{player1.name} Win!!!")
-    #             player1.update_player("win")
-    #             player2.update_player("lose")
-    #             player3.update_player("lose")
-    #             player4.update_player("lose")
-    #             break
-    #         colum2 = int(input(f"{player2.name}, Please enter column: ")) - 1
-    #         item2 = Item(colum2, symbol2)
-    #         board.dic_player[player2].append(item2)
-    #         board.update_board(2)
-    #         board.display_board()
-    #         if board.check_winner():
-    #             print(f"{player2.name} Win!!!")
-    #             player1.update_player("lose")
-    #             player2.update_player("win")
-    #             player3.update_player("lose")
-    #             player4.update_player("lose")
-    #             break
-    #         colum3 = int(input(f"{player3.name}, Please enter column: ")) - 1
-    #         item3 = Item(colum3, symbol3)
-    #         board.dic_player[player3].append(item3)
-    #         board.update_board(3)
-    #         board.display_board()
-    #
-    #         if board.check_winner():
-    #             print(f"{player3.name} Win!!!")
-    #             player1.update_player("lose")
-    #             player2.update_player("lose")
-    #             player3.update_player("win")
-    #             player4.update_player("lose")
-    #             break
-    #         colum4 = int(input(f"{player4.name}, Please enter column: ")) - 1
-    #         item4 = Item(colum4, symbol4)
-    #         board.dic_player[player4].append(item4)
-    #         board.update_board(4)
-    #         board.display_board()
-    #         if board.check_winner():
-    #             print(f"{player4.name} Win!!!")
-    #             player1.update_player("lose")
-    #             player2.update_player("lose")
-    #             player3.update_player("lose")
-    #             player4.update_player("win")
-    #             break
 
 
 
