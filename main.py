@@ -17,8 +17,8 @@ def choose_size_board():
     print("╔.★.═════════════════════════════════════════════════════════╗")
     print("         What size of board do you want to play               ")
     print("         1. 6x7                                               ")
-    print("         1. 7x8                                               ")
-    print("         1. 8x9                                               ")
+    print("         2. 7x8                                               ")
+    print("         3. 8x9                                               ")
     print("╚═════════════════════════════════════════════════════════.★.╝")
     size = int(input("Please choose choice: "))
     if size == 1:
@@ -30,8 +30,8 @@ def choose_size_board():
     return row_, column_
 
 def set_player(number):
-    name = input(f"Player {number}, Enter name: ")
-    password = input(f"Player {number}, Enter password: ")
+    name = str(input(f"Player {number}, Enter name: "))
+    password = input(f"{name}, Enter password: ")
     data = Data("data.json")
     player = Player(name, password, data, number)
     if player.check_player():
@@ -44,28 +44,34 @@ def set_player(number):
             return player
     else:
         return player
+def set_symbol(symbol_lst):
+    symbol = str(input(f"{player1.name}, Please enter symbol {symbol_lst}: "))
+    while symbol not in symbol_lst:
+        symbol = str(input(f"{player1.name}, Please enter symbol {symbol_lst}: "))
+    return symbol
 
 def set_bot():
     data = Data("data.json")
     bot_ = Player("bot", 1234, data, number=99999)
     return bot_
 
+
 print("╔.★.═════════════════════════════════════════════════════════╗")
 print("            Welcome to 4 Item Arranged Game                   ")
 print("╚═════════════════════════════════════════════════════════.★.╝")
-print("                   1. Play Game                               ")
+print("               1. Play Game                                   ")
 print("               2. Show Information Account                    ")
 print("═════════════════════════.★.══════════════════════════════════")
-choice = int(input("Please choose choice: "))
 
+choice = int(input("Please choose choice: "))
 if choice == 1:
     many_player = choose_many_player()
     if many_player == 1:
         board_row, board_column = choose_size_board()
-        print(f"▶ Many player : {many_player} Player")
-        print(f"▶ Board size : {board_row}x{board_column}")
+        print(f"▶ How many player: {many_player} Player")
+        print(f"▶ Board size: {board_row}x{board_column}")
         player1 = set_player(1)
-        symbol1 = input(f"{player1.name}, Please enter symbol: ")
+        symbol1 = set_symbol(["x", "o", "+"])
         bot = set_bot()
         symbol_bot = "*"
         board = Board({player1: [], bot: []}, board_row, board_column)
@@ -109,12 +115,14 @@ if choice == 1:
 
     elif many_player == 2:
         board_row, board_column = choose_size_board()
-        print(f"▶ Many player : {many_player} Player")
-        print(f"▶ Board size : {board_row}x{board_column}")
+        print(f"▶ Many player: {many_player} Player")
+        print(f"▶ Board size: {board_row}x{board_column}")
+        symbol_can_use = ["*", "x", "o", "+"]
         player1 = set_player(1)
-        symbol1 = input(f"{player1.name}, Please enter symbol: ")
+        symbol1 = set_symbol(symbol_can_use)
         player2 = set_player(2)
-        symbol2 = input(f"{player2.name}, Please enter symbol: ")
+        symbol_can_use.remove(symbol1)
+        symbol2 = set_symbol(symbol_can_use)
         board = Board({player1: [], player2: []}, board_row, board_column)
         board.create_board()
         board.display_board()
@@ -157,17 +165,26 @@ if choice == 1:
                 break
 
 elif choice == 2:
-    print("""1. Show win count
-    2.Show lose count
-    3.Show winrate""")
-    player1 = set_player(1)
+    print("╔.★.═════════════════════════════════════════════════════════╗")
+    print("            1. Show win game                                  ")
+    print("            2. Show lose game                                 ")
+    print("            3. Show winrate                                   ")
+    print("╚═════════════════════════════════════════════════════════.★.╝")
     choice = int(input("Enter choice: "))
+    player_show = set_player(1)
     if choice == 1:
-        print(player1.get_win())
+        print(f"▶ Name: {player_show.name}")
+        print(f"▶ Win game: {player_show.get_win()}.")
     elif choice == 2:
-        print(player1.get_lose())
+        print(f"▶ Name: {player_show.name}")
+        print(f"▶ Lose game: {player_show.get_lose()}.")
     elif choice == 3:
-        print(player1.get_winrate())
+        print(f"▶ Name: {player_show.name}")
+        print(f"▶ Winrate: {player_show.get_winrate()} percent:")
+
+
+
+
 
     # elif many_player == 2:
     #     board_row, board_column = choose_size_board()
