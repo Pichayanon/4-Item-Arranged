@@ -38,12 +38,21 @@ def set_player(number):
         if player.check_password():
             return player
         else:
+            n = 0
             while not player.check_password():
-                password = input("Wrong password, Enter password again: ")
+                if n == 3:
+                    n -= 2
+                    set_player(number)
+                    break
+                else:
+                    n += 1
+                print("Wrong password, You can try again.")
+                password = input(f"Enter password again round {n}:  ")
                 player = Player(name, password, data, number)
             return player
     else:
         return player
+
 def set_symbol(symbol_lst):
     symbol = str(input(f"{player1.name}, Please enter symbol {symbol_lst}: "))
     while symbol not in symbol_lst:
@@ -80,6 +89,8 @@ if choice == 1:
         round_ = 0
         while True:
             colum1 = int(input(f"{player1.name}, Please enter column: "))-1
+            while colum1 > board_column-1:
+                colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
             while not board.check_slot(colum1):
                 colum1 = int(input(f"{colum1 + 1} is full, Please enter column again: "))-1
             item1 = Item(colum1, symbol1)
@@ -129,6 +140,8 @@ if choice == 1:
         round_ = 0
         while True:
             colum1 = int(input(f"{player1.name}, Please enter column: "))-1
+            while colum1 > board_column-1:
+                colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
             while not board.check_slot(colum1):
                 colum1 = int(input(f"{colum1+1} is full, Please enter column again: "))-1
             item1 = Item(colum1, symbol1)
@@ -144,6 +157,8 @@ if choice == 1:
                 round_ += 1
 
             colum2 = int(input(f"{player2.name}, Please enter column: "))-1
+            while colum2 > board_column-1:
+                colum2 = int(input(f"No column {colum2 + 1}, Please enter column again: "))-1
             while not board.check_slot(colum2):
                 colum2 = int(input(f"{colum2+1} is full, Please enter column again: "))-1
             item2 = Item(colum2, symbol2)
