@@ -116,6 +116,8 @@ if choice == 1:
         round_ = 0
         while True:
             colum1 = int(input(f"{player1.name}, Please enter column: "))-1
+            while not board.check_slot(colum1):
+                colum1 = int(input(f"{colum1+1} is full, Please enter column again: "))-1
             item1 = Item(colum1, symbol1)
             board.dic_player[player1].append(item1)
             board.update_board(1)
@@ -127,7 +129,10 @@ if choice == 1:
                 break
             else:
                 round_ += 1
-            colum2 = int(input(f"{player2.name}, Please enter column: ")) - 1
+
+            colum2 = int(input(f"{player2.name}, Please enter column: "))-1
+            while not board.check_slot(colum2):
+                colum2 = int(input(f"{colum2+1} is full, Please enter column again: "))-1
             item2 = Item(colum2, symbol2)
             board.dic_player[player2].append(item2)
             board.update_board(2)

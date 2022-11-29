@@ -38,6 +38,15 @@ class Board:
             print()
         print((line * count) + "┇")
 
+    def check_slot(self, column):
+        lst_check = []
+        for row in self.lst_board:
+            lst_check.append(row[column])
+        if 0 in lst_check:
+            return True
+        else:
+            return False
+
     def update_board(self, number):
         for key, val in self.dic_player.items():
             i = -1
