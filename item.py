@@ -21,6 +21,11 @@ class Item:
     def symbol(self, new_symbol):
         self.__symbol = new_symbol
 
+    def get_column(self):
+        return self.__column
+
+    def get_symbol(self):
+        return self.__symbol
 
 
 

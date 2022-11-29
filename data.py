@@ -5,7 +5,7 @@ class Data:
     def __init__(self, filename):
         self.filename = filename
 
-    def create_player(self, player):
+    def create_account(self, player):
         new_player = {
             player.name: {
                 "password": player.password,
@@ -31,16 +31,7 @@ class Data:
                 with open(self.filename, "w") as data_file:
                     json.dump(data, data_file, indent=4)
 
-    def get_password(self, player):
-        try:
-            with open(self.filename, "r") as data_file:
-                data = json.load(data_file)
-        except FileNotFoundError:
-            print("No data file fount")
-        else:
-            return data[player.name]["password"]
-
-    def get_lst_player(self):
+    def check_account(self, player):
         try:
             with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
@@ -48,20 +39,35 @@ class Data:
             print("No data file fount")
         else:
             lst_name = [name for name in data.keys()]
-            return lst_name
+            if player.name in lst_name:
+                return True
+            else:
+                return False
 
-    def get_information(self, player, inform):
+    def check_password(self, player):
         try:
             with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
         except FileNotFoundError:
             print("No data file fount")
         else:
-            if inform == "win":
+            if player.password == data[player.name]["password"]:
+                return True
+            else:
+                return False
+
+    def get_score(self, player, kind):
+        try:
+            with open(self.filename, "r") as data_file:
+                data = json.load(data_file)
+        except FileNotFoundError:
+            print("No data file fount")
+        else:
+            if kind == "win":
                 return data[player.name]["score"]["win"]
-            elif inform == "lose":
+            elif kind == "lose":
                 return data[player.name]["score"]["lose"]
-            elif inform == "draw":
+            elif kind == "draw":
                 return data[player.name]["score"]["draw"]
 
     def update_data(self, player, status):

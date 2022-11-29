@@ -5,7 +5,7 @@ class Player:
         self.number = number
         self.score = score
         self.data = data
-        data.create_player(self)
+        data.create_account(self)
 
     @property
     def name(self):
@@ -50,34 +50,18 @@ class Player:
     def score(self, new_score):
         self.__score = new_score
 
-    def check_player(self):
-        lst_name = self.data.get_lst_player()
-        if self.name in lst_name:
-            return True
-        else:
-            return False
-
-    def check_password(self):
-        if self.data.get_password(self) == self.password:
-            return True
-        else:
-            return False
-
-    def update_player(self, status):
-        self.data.update_data(self, status)
-
     def get_win(self):
-        return self.data.get_information(self, "win")
+        return self.data.get_score(self, "win")
 
     def get_lose(self):
-        return self.data.get_information(self, "lose")
+        return self.data.get_score(self, "lose")
 
     def get_draw(self):
-        return self.data.get_information(self, "draw")
+        return self.data.get_score(self, "draw")
 
     def get_winrate(self):
-        win = self.data.get_information(self, "win")
-        lose = self.data.get_information(self, "lose")
-        draw = self.data.get_information(self, "draw")
-        return win/(win+lose+draw)
+        win = self.data.get_score(self, "win")
+        lose = self.data.get_score(self, "lose")
+        draw = self.data.get_score(self, "draw")
+        return (win/(win+lose+draw))*100
 
