@@ -41,8 +41,7 @@ def set_player(number, data_):
             while not data_.check_password(player):
                 if n == 3:
                     n -= 2
-                    set_player(number, data_)
-                    break
+                    return set_player(number, data_)
                 else:
                     n += 1
                 print("Wrong password, You can try again.")
