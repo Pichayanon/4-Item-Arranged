@@ -89,7 +89,7 @@ if choice == 1:
         round_ = 0
         while True:
             colum1 = int(input(f"{player1.name}, Please enter column: "))-1
-            while colum1 > board_column-1:
+            while (colum1 > board_column-1) or (colum1 < 0):
                 colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
             while not board.check_slot(colum1):
                 colum1 = int(input(f"{colum1 + 1} is full, Please enter column again: "))-1
@@ -140,7 +140,7 @@ if choice == 1:
         round_ = 0
         while True:
             colum1 = int(input(f"{player1.name}, Please enter column: "))-1
-            while colum1 > board_column-1:
+            while (colum1 > board_column-1) or (colum1 < 0):
                 colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
             while not board.check_slot(colum1):
                 colum1 = int(input(f"{colum1+1} is full, Please enter column again: "))-1
@@ -157,7 +157,7 @@ if choice == 1:
                 round_ += 1
 
             colum2 = int(input(f"{player2.name}, Please enter column: "))-1
-            while colum2 > board_column-1:
+            while (colum2 > board_column-1) or (colum2 < 0):
                 colum2 = int(input(f"No column {colum2 + 1}, Please enter column again: "))-1
             while not board.check_slot(colum2):
                 colum2 = int(input(f"{colum2+1} is full, Please enter column again: "))-1
@@ -197,7 +197,7 @@ if choice == 1:
         round_ = 0
         while True:
             colum1 = int(input(f"{player1.name}, Please enter column: "))-1
-            while colum1 > board_column-1:
+            while (colum1 > board_column-1) or (colum1 < 0):
                 colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
             while not board.check_slot(colum1):
                 colum1 = int(input(f"{colum1+1} is full, Please enter column again: "))-1
@@ -215,7 +215,7 @@ if choice == 1:
                 round_ += 1
 
             colum2 = int(input(f"{player2.name}, Please enter column: "))-1
-            while colum2 > board_column-1:
+            while (colum2 > board_column-1) or (colum2 < 0):
                 colum2 = int(input(f"No column {colum2 + 1}, Please enter column again: "))-1
             while not board.check_slot(colum2):
                 colum2 = int(input(f"{colum2+1} is full, Please enter column again: "))-1
@@ -233,7 +233,7 @@ if choice == 1:
                 round_ += 1
 
             colum3 = int(input(f"{player3.name}, Please enter column: "))-1
-            while colum3 > board_column-1:
+            while (colum3 > board_column-1) or (colum3 < 0):
                 colum3 = int(input(f"No column {colum3 + 1}, Please enter column again: "))-1
             while not board.check_slot(colum3):
                 colum3 = int(input(f"{colum3+1} is full, Please enter column again: "))-1
@@ -274,7 +274,6 @@ elif choice == 2:
     elif choice == 3:
         print(f"▶ Name: {player_show.name}")
         print(f"▶ Winrate: {player_show.get_winrate()} percent:")
-
 
 
 
