@@ -55,6 +55,7 @@ class Board:
                     column = val[-1].column
                     if self.lst_board[i][column] == 0:
                         self.lst_board[i][column] = number
+                        val[-1].row = i
                         break
                     else:
                         i -= 1

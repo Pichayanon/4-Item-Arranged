@@ -4,6 +4,7 @@ class Item:
     def __init__(self, column, symbol):
         self.column = column
         self.symbol = symbol
+        self.row = 0
 
     @property
     def column(self):
@@ -12,6 +13,14 @@ class Item:
     @column.setter
     def column(self, new_column):
         self.__column = new_column
+
+    @property
+    def row(self):
+        return self.__row
+
+    @row.setter
+    def row(self, new_row):
+        self.__row = new_row
 
     @property
     def symbol(self):
