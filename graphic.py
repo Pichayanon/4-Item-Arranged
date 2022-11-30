@@ -42,9 +42,8 @@ class Graphic:
             set_y = ((50 * self.board.row) / 2) + 50
             turtle_display = turtle.Turtle(visible=None)
             turtle_display.color("red")
+            turtle_display.pensize(3)
             style = ("Courier", 50, "italic")
-            turtle_display.penup()
-            turtle_display.setposition(set_x, set_y)
             turtle_display.speed(0)
             dis_x = 50
             for item in val:
@@ -55,12 +54,8 @@ class Graphic:
                     turtle_display.setposition(x, -y)
                     turtle_display.penup()
                     turtle_display.write(item.symbol, font=style, align="center")
-
-
                 else:
                     pass
-
-
 
     def display_text(self):
         pass
