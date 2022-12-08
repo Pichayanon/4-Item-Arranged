@@ -31,7 +31,7 @@ class Data:
                 with open(self.filename, "w") as data_file:
                     json.dump(data, data_file, indent=4)
 
-    def check_account(self, player):
+    def check_account(self, name):
         try:
             with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
@@ -39,7 +39,7 @@ class Data:
             print("No data file fount")
         else:
             lst_name = [name for name in data.keys()]
-            if player.name in lst_name:
+            if name in lst_name:
                 return True
             else:
                 return False

@@ -2,10 +2,9 @@ class Player:
     def __init__(self, name, password, data, number=0, score=[0, 0, 0]):
         self.name = name
         self.password = password
+        self.data = data
         self.number = number
         self.score = score
-        self.data = data
-        data.create_account(self)
 
     @property
     def name(self):
@@ -16,7 +15,7 @@ class Player:
         if isinstance(new_name, str):
             self.__name = new_name
         else:
-            raise TypeError("name must be string")
+            raise TypeError("Name must be string")
 
     @property
     def password(self):
