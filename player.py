@@ -1,66 +1,80 @@
+"""This is a class Player."""
 class Player:
-    def __init__(self, name, password, data, number=0, score=[0, 0, 0]):
+    """
+    This is a class to create player for game.
+
+    Attributes:
+        name (str): Name of player.
+        password (str): Password of player.
+        data (Data): Data to store player account.
+        number (int): Number of players for playing the game.
+    """
+    def __init__(self, name, password, data, number=0):
+        """
+        The constructor for Player class.
+
+        Parameters:
+            name (str): Name of player.
+            password (str): Password of player.
+            data (Data): Data to store player account.
+            number (int): Number of players for playing the game.
+        """
         self.name = name
         self.password = password
         self.data = data
         self.number = number
-        self.score = score
 
     @property
     def name(self):
+        """Set a name of player"""
         return self.__name
 
     @name.setter
     def name(self, new_name):
-        if isinstance(new_name, str):
-            self.__name = new_name
-        else:
+        """Set a name of player"""
+        if not isinstance(new_name, str):
             raise TypeError("Name must be string")
+        self.__name = new_name
 
     @property
     def password(self):
+        """Set a password of player"""
         return self.__password
 
     @password.setter
     def password(self, new_password):
+        """Set a password of player"""
+        if new_password == "":
+            raise ValueError("Password is empty")
         self.__password = new_password
 
     @property
-    def data(self):
-        return self.__data
-
-    @data.setter
-    def data(self, new_data):
-        self.__data = new_data
-
-    @property
     def number(self):
+        """Set a number of player"""
         return self.__number
 
     @number.setter
     def number(self, new_number):
+        """Set a number of player"""
+        if not isinstance(new_number, int):
+            raise TypeError("Number must be integer ")
         self.__number = new_number
 
-    @property
-    def score(self):
-        return self.__score
-
-    @score.setter
-    def score(self, new_score):
-        self.__score = new_score
-
     def get_win(self):
-        return self.data.get_score(self, "win")
+        """The function to get win count of player."""
+        return self.data.get_score_account(self.name, 'win')
 
     def get_lose(self):
-        return self.data.get_score(self, "lose")
+        """The function to get lose count of player."""
+        return self.data.get_score_account(self.name, 'lose')
 
     def get_draw(self):
-        return self.data.get_score(self, "draw")
+        """The function to get draw count of player."""
+        return self.data.get_score_account(self.name, 'draw')
 
     def get_winrate(self):
-        win = self.data.get_score(self, "win")
-        lose = self.data.get_score(self, "lose")
-        draw = self.data.get_score(self, "draw")
-        return (win/(win+lose+draw))*100
-
+        """The function to get winrate of player."""
+        win = self.data.get_score_account(self.name, "win")
+        lose = self.data.get_score_account(self.name, "lose")
+        draw = self.data.get_score_account(self.name, "draw")
+        return (win / (win + lose + draw)) * 100

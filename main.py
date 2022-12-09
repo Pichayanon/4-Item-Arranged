@@ -1,203 +1,286 @@
-from data import Data
-from player import Player
-from item import Item
-from board import Board
-from graphic import Graphic
 import random
-from turtle import Turtle
-def choose_many_player():
-    print("╔.★.═════════════════════════════════════════════════════════╗")
-    print("          How many player do you want to play                 ")
-    print("          1 Player                                            ")
-    print("          2 Player                                            ")
-    print("╚═════════════════════════════════════════════════════════.★.╝")
-    player = int(input("How many player do you want to play: "))
-    return player
+from player import Player
+from data import Data
+from board import Board
+from item import Item
+from graphic import Graphic
 
-def choose_size_board():
-    print("╔.★.═════════════════════════════════════════════════════════╗")
-    print("         What size of board do you want to play               ")
-    print("         1. 6x7                                               ")
-    print("         2. 7x8                                               ")
-    print("         3. 8x9                                               ")
-    print("╚═════════════════════════════════════════════════════════.★.╝")
-    size = int(input("Please choose choice: "))
-    if size == 1:
+def set_player(data: Data, number: int) -> Player:
+    """
+    create player for game.
+
+    Get name and password from player.
+
+    Parameters:
+    data (Data): data to store player account.
+    number (int) : number of players for playing the game.
+
+    Returns:
+    Player : player for game
+    """
+    player_name = str(input("Enter name: "))
+    password = str(input(f"{player_name}, Enter password: "))
+    player_ = Player(player_name, password, data, number)
+    while not data.login(player_):
+        player_name = str(input("Enter name: "))
+        password = str(input(f"{player_name}, Enter password: "))
+        player_ = Player(player_name, password, data, number)
+    return player_
+
+def set_many_player() -> int:
+    """Let the player choose the number of players and return it"""
+    print("╔.★.═════════════════════════════════════════════╗")
+    print(f"{'How many player do you want to play':^51}")
+    print("            1 Player                              ")
+    print("            2 Player                              ")
+    print("╚═════════════════════════════════════════════.★.╝")
+    m_player = input("How many player do you want to play: ")
+    return m_player
+
+def set_symbol(symbol_lst: list[str]) -> str:
+    """Let the player choose symbol of item and return it"""
+    symbol_selected = str(input(f"Enter symbol {symbol_lst}: "))
+    while symbol_selected not in symbol_lst:
+        symbol_selected = str(input(f"Enter symbol {symbol_lst}: "))
+    return symbol_selected
+
+def set_choice_information() -> int:
+    """Let the player choose choice to show information and return it"""
+    print("╔.★.═════════════════════════════════════════════╗")
+    print("            1. Show win,lose and draw game        ")
+    print("            2. Show winrate                       ")
+    print("╚═════════════════════════════════════════════.★.╝")
+    i_choice = input("Please select choice: ")
+    return i_choice
+
+def set_board() -> int:
+    """Let the player choose size of board and return it"""
+    print("╔.★.═════════════════════════════════════════════╗")
+    print(f"{'What size of board do you want to play':^51}")
+    print("            1. 6x7                                ")
+    print("            2. 7x8                                ")
+    print("            3. 8x9                                ")
+    print("╚═════════════════════════════════════════════.★.╝")
+    size_selected = input("Select size of board: ")
+    while size_selected not in ['1', '2', '3']:
+        print("Incorrect choice, please select again")
+        size_selected = input("Select size of board: ")
+    if size_selected == '1':
         row_, column_ = 6, 7
-    elif size == 2:
+    elif size_selected == '2':
         row_, column_ = 7, 8
-    elif size == 3:
+    elif size_selected == '3':
         row_, column_ = 8, 9
     return row_, column_
 
-def set_player(number, data_):
-    name = str(input(f"Player {number}, Enter name: "))
-    password = input(f"{name}, Enter password: ")
-    player = Player(name, password, data_, number)
-    if data.check_account(name):
-        if data_.check_password(player):
-            return player
-        else:
-            n = 0
-            print("Wrong password, You can try again 3 time.")
-            while not data_.check_password(player):
-                if n == 3:
-                    n -= 2
-                    return set_player(number, data_)
-                else:
-                    n += 1
-                password = input(f"Enter password again round {n}:  ")
-                player = Player(name, password, data_, number)
-            return player
-    else:
-        return player
+def play_1player():
+    """Play this game with 1 player"""
+    symbol_ = ['*', 'O']  # set symbol that player can use
+    # set player
+    player = set_player(data_, 1)
+    symbol = set_symbol(symbol_)
+    # set bot
+    bot = Player("bot", '1234', data_, number=99999)
+    symbol_bot = 'X'
+    # set board
+    row, column = set_board()
+    board = Board({player: [], bot: []}, row, column)
+    board.create_board()
+    graphic = Graphic(board)
+    graphic.create_board()
+    # set game play
+    round_ = 0  # set start round
+    while True:
+        # player turn
+        colum = int(input(f"{player.name}, Enter column: ")) - 1
+        # check column selected in range column of board or not
+        while (colum < 0) or (colum > column - 1):
+            print(f"No column : {colum + 1}")
+            colum = int(input("Enter column again: ")) - 1
+        # check column selected that have free slot or not
+        while not board.check_slot(colum):
+            print(f"{colum + 1} is full.")
+            colum = int(input("Enter column again: ")) - 1
+        # set item of player
+        item = Item(symbol, colum)
+        # update board
+        board.dic_player[player].append(item)
+        board.update_board(1)
+        graphic.display_board()
+        # check win
+        if board.check_winner():
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"{'You is winner!':^51}")
+            print("╚═════════════════════════════════════════════.★.╝")
+            # update account of player
+            data_.update_account(player.name, "win")
+            break
+        round_ += 1  # player not win round += 1
 
-def set_symbol(symbol_lst):
-    symbol = str(input(f"{player1.name}, Please enter symbol {symbol_lst}: "))
-    while symbol not in symbol_lst:
-        symbol = str(input(f"{player1.name}, Please enter symbol {symbol_lst}: "))
-    return symbol
+        # bot turn
+        # random column bot in range (0, column of board)
+        colum_bot = random.randint(0, column - 1)
+        # check column selected that have free slot or not
+        while not board.check_slot(colum_bot):
+            colum_bot = random.randint(0, column - 1)
+        print(f"Bot select column : {colum_bot + 1}")
+        # set item of bot
+        item_bot = Item(symbol_bot, colum_bot)
+        # update board
+        board.dic_player[bot].append(item_bot)
+        board.update_board(99999)
+        graphic.display_board()
+        # check win
+        if board.check_winner():
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"{'You is loser!':^51}")
+            print("╚═════════════════════════════════════════════.★.╝")
+            # update account of player
+            data_.update_account(player.name, "lose")
+            break
+        round_ += 1  # bot not win round += 1
 
-def set_bot(data_):
-    bot_ = Player("bot", 1234, data_, number=99999)
-    return bot_
+        # check when game is draw
+        if round_ == (column * row):
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"{'This game is draw!!!!':^51}")
+            print("╚═════════════════════════════════════════════.★.╝")
+            data_.update_account(player.name, "draw")
+            break
 
+def play_2player():
+    """Play game with 2 player"""
+    symbol_ = ['*', 'X', 'O']  # set symbol that player can use
+    # set player1
+    player1 = set_player(data_, 1)
+    symbol1 = set_symbol(symbol_)
+    symbol_.remove(symbol1)
+    # set player2
+    player2 = set_player(data_, 2)
+    symbol2 = set_symbol(symbol_)
+    # set board
+    row, column = set_board()
+    board = Board({player1: [], player2: []}, row, column)
+    board.create_board()
+    graphic = Graphic(board)
+    graphic.create_board()
+    # set game play
+    round_ = 0  # set start round
+    while True:
+        # player1 turn
+        colum1 = int(input(f"{player1.name}, Enter column: ")) - 1
+        # check column selected in range column of board or not
+        while (colum1 < 0) or (colum1 > column - 1):
+            print(f"No column : {colum1 + 1}")
+            colum1 = int(input("Enter column again: ")) - 1
+        # check column selected that have free slot or not
+        while not board.check_slot(colum1):
+            print(f"{colum1 + 1} is full.")
+            colum1 = int(input("Enter column again: ")) - 1
+        # set item of player 1
+        item1 = Item(symbol1, colum1)
+        # update board
+        board.dic_player[player1].append(item1)
+        board.update_board(1)
+        graphic.display_board()
+        # check win
+        if board.check_winner():
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"{player1.name+' is winner!':^51}")
+            print("╚═════════════════════════════════════════════.★.╝")
+            # update account of player1 and player2
+            data_.update_account(player1.name, "win")
+            data_.update_account(player2.name, "lose")
+            break
+        round_ += 1  # player1 not win round += 1
 
-print("╔.★.═════════════════════════════════════════════════════════╗")
-print("            Welcome to 4 Item Arranged Game                   ")
-print("╚═════════════════════════════════════════════════════════.★.╝")
-print("               1. Play Game                                   ")
-print("               2. Show Information Account                    ")
-print("═════════════════════════.★.══════════════════════════════════")
+        # player2 turn
+        colum2 = int(input(f"{player2.name}, Enter column: ")) - 1
+        # check column selected in range column of board or not
+        while (colum2 < 0) or (colum2 > column - 1):
+            print(f"No column : {colum2 + 1}")
+            colum2 = int(input("Enter column again: ")) - 1
+        # check column selected that have free slot or not
+        while not board.check_slot(colum2):
+            print(f"{colum2 + 1} is full.")
+            colum2 = int(input("Enter column again: ")) - 1
+        # set item of player 2
+        item2 = Item(symbol2, colum2)
+        # update board
+        board.dic_player[player2].append(item2)
+        board.update_board(2)
+        graphic.display_board()
+        # check win
+        if board.check_winner():
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"{player2.name+' is winner!':^51}")
+            print("╚═════════════════════════════════════════════.★.╝")
+            # update account of player1 and player2
+            data_.update_account(player1.name, "lose")
+            data_.update_account(player2.name, "win")
+            break
+        round_ += 1  # player2 not win round += 1
 
-
-choice = int(input("Please choose choice: "))
-data = Data("data.json")
-if choice == 1:
-    many_player = choose_many_player()
-    if many_player == 1:
-        board_row, board_column = choose_size_board()
-        print(f"▶ How many player: {many_player} Player")
-        print(f"▶ Board size: {board_row}x{board_column}")
-        player1 = set_player(1, data)
-        symbol1 = set_symbol(["X", "O", "#"])
-        bot = set_bot(data)
-        symbol_bot = "*"
-        board = Board({player1: [], bot: []}, board_row, board_column)
-        board.create_board()
-        graphic = Graphic(board)
-        graphic.create_board()
-        round_ = 0
-        while True:
-            colum1 = int(input(f"{player1.name}, Please enter column: "))-1
-            while (colum1 > board_column-1) or (colum1 < 0):
-                colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
-            while not board.check_slot(colum1):
-                colum1 = int(input(f"{colum1 + 1} is full, Please enter column again: "))-1
-            item1 = Item(colum1, symbol1)
-            board.dic_player[player1].append(item1)
-            board.update_board(1)
-            graphic.display_board()
-            if board.check_winner():
-                print(f"{player1.name} Win!!!")
-                data.update_data(player1, "win")
-                break
-            else:
-                round_ += 1
-            colum_bot = random.randint(0, board_column-1)
-            print(f"Bot, colum: {colum_bot+1}")
-            while not board.check_slot(colum_bot):
-                colum_bot = random.randint(0, board_column-1)
-                print(f"{colum_bot-1} is full, Bot select new colum: {colum_bot}")
-            item_bot = Item(colum_bot, symbol_bot)
-            board.dic_player[bot].append(item_bot)
-            board.update_board(99999)
-            graphic.display_board()
-            if board.check_winner():
-                print(f"{player1.name} Lose!!!")
-                data.update_data(player1, "lose")
-                break
-            else:
-                round_ += 1
-
-            if round_ == (board_column*board_row):
-                print("This game is draw!!!!")
-                data.update_data(player1, "draw")
-                break
-
-    elif many_player == 2:
-        board_row, board_column = choose_size_board()
-        print(f"▶ Many player: {many_player} Player")
-        print(f"▶ Board size: {board_row}x{board_column}")
-        symbol_can_use = ["*", "X", "O", "#"]
-        player1 = set_player(1, data)
-        symbol1 = set_symbol(symbol_can_use)
-        player2 = set_player(2, data)
-        symbol_can_use.remove(symbol1)
-        symbol2 = set_symbol(symbol_can_use)
-        board = Board({player1: [], player2: []}, board_row, board_column)
-        board.create_board()
-        graphic = Graphic(board)
-        graphic.create_board()
-        round_ = 0
-        while True:
-            colum1 = int(input(f"{player1.name}, Please enter column: "))-1
-            while (colum1 > board_column-1) or (colum1 < 0):
-                colum1 = int(input(f"No column {colum1 + 1}, Please enter column again: ")) - 1
-            while not board.check_slot(colum1):
-                colum1 = int(input(f"{colum1+1} is full, Please enter column again: "))-1
-            item1 = Item(colum1, symbol1)
-            board.dic_player[player1].append(item1)
-            board.update_board(1)
-            graphic.display_board()
-            if board.check_winner():
-                print(f"{player1.name} Win!!!")
-                data.update_data(player1, "win")
-                data.update_data(player2, "lose")
-                break
-            else:
-                round_ += 1
-
-            colum2 = int(input(f"{player2.name}, Please enter column: "))-1
-            while (colum2 > board_column-1) or (colum2 < 0):
-                colum2 = int(input(f"No column {colum2 + 1}, Please enter column again: "))-1
-            while not board.check_slot(colum2):
-                colum2 = int(input(f"{colum2+1} is full, Please enter column again: "))-1
-            item2 = Item(colum2, symbol2)
-            board.dic_player[player2].append(item2)
-            board.update_board(2)
-            graphic.display_board()
-            if board.check_winner():
-                print(f"{player2.name} Win!!!")
-                data.update_data(player1, "lose")
-                data.update_data(player2, "win")
-                break
-            else:
-                round_ += 1
-
-            if round_ == (board_column*board_row):
-                print("This game is draw!!!!")
-                data.update_data(player1, "draw")
-                data.update_data(player2, "draw")
-                break
-
-elif choice == 2:
-    print("╔.★.═════════════════════════════════════════════════════════╗")
-    print("            1. Show win game                                  ")
-    print("            2. Show lose game                                 ")
-    print("            3. Show winrate                                   ")
-    print("╚═════════════════════════════════════════════════════════.★.╝")
-    choice = int(input("Enter choice: "))
-    player_show = set_player(1, data)
-    if choice == 1:
-        print(f"▶ Name: {player_show.name}")
-        print(f"▶ Win game: {player_show.get_win()}.")
-    elif choice == 2:
-        print(f"▶ Name: {player_show.name}")
-        print(f"▶ Lose game: {player_show.get_lose()}.")
-    elif choice == 3:
-        print(f"▶ Name: {player_show.name}")
-        print(f"▶ Winrate: {player_show.get_winrate()} percent:")
+        # check when game is draw
+        if round_ == (column * row):
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"{'This game is draw!!!!':^51}")
+            print("╚═════════════════════════════════════════════.★.╝")
+            data_.update_account(player1, "draw")
+            data_.update_account(player2, "draw")
+            break
 
 
-
+print("╔.★.═════════════════════════════════════════════╗")
+print("       Welcome to 4 Item Arranged Game            ")
+print("╚═════════════════════════════════════════════.★.╝")
+print("            1. Play Game                          ")
+print("            2. Show Information Account           ")
+print("═════════════════════════.★.══════════════════════")
+choice = input("Please select choice: ")
+while choice not in ['1', '2']:
+    print("Incorrect choice")
+    choice = input("Please select choice again: ")
+# Play game
+if choice == '1':
+    data_ = Data("data.json")  # set file that collect data
+    many_players = ''
+    # check that not equal 1, 2, back or not.
+    while many_players not in ['1', '2']:
+        many_players = set_many_player()
+        # 1 player
+        if many_players == '1':
+            play_1player()
+        # 2 player
+        elif many_players == '2':
+            play_2player()
+# Show information of account
+elif choice == '2':
+    data_ = Data("data.json")  # set file that collect data
+    name = input("Please enter name: ")  # input name of player
+    # check data have account player or not
+    while not data_.check_account(name):
+        print("No account in data")
+        name = input("Please enter name: ")
+    information_selected = ''
+    # check that not equal 1, 2, back or not.
+    while information_selected not in ['1', '2']:
+        information_selected = set_choice_information()
+        player_inform = Player(name, data_.get_password(name), data_)
+        # show win, lose and draw count
+        if information_selected == '1':
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"▶ Name: {name}")
+            print(f"▶ Win game: {player_inform.get_win()}.")
+            print(f"▶ Lose game: {player_inform.get_lose()}.")
+            print(f"▶ Draw game: {player_inform.get_draw()}.")
+            print("╚═════════════════════════════════════════════.★.╝")
+        # show winrate
+        elif information_selected == '2':
+            print("╔.★.═════════════════════════════════════════════╗")
+            print(f"▶ Name: {name}")
+            print(f"▶ Winrate: {player_inform.get_winrate():.2f}.")
+            print("╚═════════════════════════════════════════════.★.╝")
+        # back
+        elif information_selected == 'back':
+            continue

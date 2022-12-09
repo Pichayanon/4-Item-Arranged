@@ -1,21 +1,39 @@
-from player import Player
-from item import Item
-
+"""This is a class Board."""
 class Board:
+    """
+    This is a class to create a game board.
+
+    Attributes:
+        dic_player (dict): The dict whose key is player and
+        whose value is the list of the item.
+        row (int): Number of board rows.
+        column (int): Number of board columns.
+    """
     def __init__(self, dic_player, row=0, column=0):
+        """
+        The constructor for Board class.
+
+        Parameters:
+            dic_player (dict): The dict whose key is player and
+            whose value is the list of the item.
+            row (int): Number of board rows.
+            column (int): Number of board columns.
+        """
         self.dic_player = dic_player
         self.row = row
         self.column = column
         self.lst_board = []
 
     def create_board(self):
-        for i in range(self.row):
+        """The function to create game board."""
+        for _ in range(self.row):
             lst_column = []
-            for j in range(self.column):
+            for _ in range(self.column):
                 lst_column.append(0)
             self.lst_board.append(lst_column)
 
     def display_board(self):
+        """The function to display game board."""
         space = "   "
         line = "┇━━━"
         count = len(self.lst_board[0])
@@ -39,15 +57,17 @@ class Board:
         print((line * count) + "┇")
 
     def check_slot(self, column):
+        """The function to check slot in column of game board that free
+        or not."""
         lst_check = []
         for row in self.lst_board:
             lst_check.append(row[column])
         if 0 in lst_check:
             return True
-        else:
-            return False
+        return False
 
     def update_board(self, number):
+        """The function to update game board"""
         for key, val in self.dic_player.items():
             i = -1
             while True:
@@ -57,50 +77,49 @@ class Board:
                         self.lst_board[i][column] = number
                         val[-1].row = i
                         break
-                    else:
-                        i -= 1
+                    i -= 1
                 else:
                     break
 
     def check_winner(self):
-        r = len(self.lst_board)
-        c = len(self.lst_board[0])
-        while c-4 >= 0:
+        """The function to check game board have winner or not"""
+        len_r = len(self.lst_board)
+        len_c = len(self.lst_board[0])
+        while len_c-4 >= 0:
             for row in self.lst_board:
-                if row[c-1] == row[c-2] == row[c-3] == row[c-4] != 0:
+                if row[len_c - 1] == row[len_c - 2] == \
+                        row[len_c - 3] == row[len_c - 4] != 0:
                     return True
-            c -= 1
-        while r-4 >= 0:
+            len_c -= 1
+        while len_r-4 >= 0:
             for column in range(len(self.lst_board[0])):
-                if self.lst_board[r-1][column] == self.lst_board[r-2][column] == self.lst_board[r-3][column] == self.lst_board[r-4][column] != 0:
+                if self.lst_board[len_r - 1][column] == \
+                        self.lst_board[len_r - 2][column] == \
+                        self.lst_board[len_r - 3][column] == \
+                        self.lst_board[len_r - 4][column] != 0:
                     return True
-            r -= 1
-        n = len(self.lst_board)
-        while n-4 >= 0:
-            m = len(self.lst_board[0])
-            while m-4 >= 0:
-                if self.lst_board[n-1][m-1] == self.lst_board[n-2][m-2] == self.lst_board[n-3][m-3] == self.lst_board[n-4][m-4] != 0:
+            len_r -= 1
+
+        len_r2 = len(self.lst_board)
+        while len_r2-4 >= 0:
+            len_c2 = len(self.lst_board[0])
+            while len_c2-4 >= 0:
+                if self.lst_board[len_r2 - 1][len_c2 - 1] == \
+                        self.lst_board[len_r2 - 2][len_c2 - 2] == \
+                        self.lst_board[len_r2 - 3][len_c2 - 3] == \
+                        self.lst_board[len_r2 - 4][len_c2 - 4] != 0:
                     return True
-                m -= 1
-            n -= 1
+                len_c2 -= 1
+            len_r2 -= 1
 
-        a = len(self.lst_board)
-        while a-4 >= 0:
-            b = 0
-            while b+4 <= len(self.lst_board[0]):
-                if self.lst_board[a-1][b] == self.lst_board[a-2][b+1] == self.lst_board[a-3][b+2] == self.lst_board[a-4][b+3] != 0:
+        len_r3 = len(self.lst_board)
+        while len_r3-4 >= 0:
+            len_c3 = 0
+            while len_c3+4 <= len(self.lst_board[0]):
+                if self.lst_board[len_r3 - 1][len_c3] == \
+                        self.lst_board[len_r3 - 2][len_c3 + 1] == \
+                        self.lst_board[len_r3 - 3][len_c3 + 2] == \
+                        self.lst_board[len_r3 - 4][len_c3 + 3] != 0:
                     return True
-                b += 1
-            a -= 1
-
-
-
-
-
-
-
-
-
-
-
-
+                len_c3 += 1
+            len_r3 -= 1
