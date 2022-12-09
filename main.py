@@ -35,6 +35,8 @@ def set_many_player() -> int:
     print("            2 Player                              ")
     print("╚═════════════════════════════════════════════.★.╝")
     m_player = input("How many player do you want to play: ")
+    while m_player not in ['1', '2']:
+        m_player = input("You can choose 1 or 2 player: ")
     return m_player
 
 def set_symbol(symbol_lst: list[str]) -> str:
@@ -51,6 +53,9 @@ def set_choice_information() -> int:
     print("            2. Show winrate                       ")
     print("╚═════════════════════════════════════════════.★.╝")
     i_choice = input("Please select choice: ")
+    while i_choice not in ['1', '2']:
+        print("Incorrect choice, please select again")
+        i_choice = input("Please select choice: ")
     return i_choice
 
 def set_board() -> int:
@@ -73,7 +78,7 @@ def set_board() -> int:
         row_, column_ = 8, 9
     return row_, column_
 
-def play_1player():
+def play_1player(data_):
     """Play this game with 1 player"""
     symbol_ = ['*', 'O']  # set symbol that player can use
     # set player
@@ -148,7 +153,7 @@ def play_1player():
             data_.update_account(player.name, "draw")
             break
 
-def play_2player():
+def play_2player(data_):
     """Play game with 2 player"""
     symbol_ = ['*', 'X', 'O']  # set symbol that player can use
     # set player1
@@ -243,30 +248,30 @@ while choice not in ['1', '2']:
     choice = input("Please select choice again: ")
 # Play game
 if choice == '1':
-    data_ = Data("data.json")  # set file that collect data
+    data_play = Data("data.json")  # set file that collect data
     many_players = ''
     # check that not equal 1, 2, back or not.
     while many_players not in ['1', '2']:
         many_players = set_many_player()
         # 1 player
         if many_players == '1':
-            play_1player()
+            play_1player(data_play)
         # 2 player
         elif many_players == '2':
-            play_2player()
+            play_2player(data_play)
 # Show information of account
 elif choice == '2':
-    data_ = Data("data.json")  # set file that collect data
+    data_play = Data("data.json")  # set file that collect data
     name = input("Please enter name: ")  # input name of player
     # check data have account player or not
-    while not data_.check_account(name):
+    while not data_play.check_account(name):
         print("No account in data")
         name = input("Please enter name: ")
     information_selected = ''
     # check that not equal 1, 2, back or not.
     while information_selected not in ['1', '2']:
         information_selected = set_choice_information()
-        player_inform = Player(name, data_.get_password(name), data_)
+        player_inform = Player(name, data_play.get_password(name), data_play)
         # show win, lose and draw count
         if information_selected == '1':
             print("╔.★.═════════════════════════════════════════════╗")
