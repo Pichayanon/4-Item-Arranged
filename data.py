@@ -98,7 +98,7 @@ class Data:
                 print("No name account")
 
     def get_score_account(self, name, status):
-        """The function to get score of player."""
+        """The function to get score of account."""
         try:
             with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
