@@ -5,7 +5,7 @@ from board import Board
 from item import Item
 from graphic import Graphic
 
-def set_player(data: Data, number: int) -> Player:
+def set_player(data: Data, number: int, name_not_use='') -> Player:
     """
     create player for game.
 
@@ -19,6 +19,9 @@ def set_player(data: Data, number: int) -> Player:
     Player : player for game
     """
     player_name = str(input("Enter name: "))
+    while player_name == name_not_use:
+        print("You can't use this name")
+        player_name = str(input("Enter name again: "))
     password = str(input(f"{player_name}, Enter password: "))
     player_ = Player(player_name, password, data, number)
     while not data.login(player_):
@@ -161,7 +164,7 @@ def play_2player(data_):
     symbol1 = set_symbol(symbol_)
     symbol_.remove(symbol1)
     # set player2
-    player2 = set_player(data_, 2)
+    player2 = set_player(data_, 2, player1.name)
     symbol2 = set_symbol(symbol_)
     # set board
     row, column = set_board()
