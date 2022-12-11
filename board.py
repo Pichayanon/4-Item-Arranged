@@ -4,25 +4,56 @@ class Board:
     This is a class to create a game board.
 
     Attributes:
-        dic_player (dict): The dict whose key is player and
+        dict_player (dict): The dict whose key is player and
         whose value is the list of the item.
         row (int): Number of board rows.
         column (int): Number of board columns.
     """
-    def __init__(self, dic_player, row=0, column=0):
+
+    def __init__(self, dict_player, row=0, column=0):
         """
         The constructor for Board class.
 
         Parameters:
-            dic_player (dict): The dict whose key is player and
+            dict_player (dict): The dict whose key is player and
             whose value is the list of the item.
             row (int): Number of board rows.
             column (int): Number of board columns.
         """
-        self.dic_player = dic_player
+        self.dict_player = dict_player
         self.row = row
         self.column = column
         self.lst_board = []
+
+    @property
+    def dict_player(self):
+        """dict_player property"""
+        return self.__dict_player
+
+    @dict_player.setter
+    def dict_player(self, new_dict):
+        """Set dict_player"""
+        self.__dict_player = new_dict
+
+    @property
+    def row(self):
+        """row property"""
+        return self.__row
+
+    @row.setter
+    def row(self, new_row):
+        """Set row"""
+        self.__row = new_row
+
+    @property
+    def column(self):
+        """column property"""
+        return self.__column
+
+    @column.setter
+    def column(self, new_column):
+        """Set column"""
+        self.__column = new_column
 
     def create_board(self):
         """The function to create game board."""
@@ -48,7 +79,7 @@ class Board:
                 if slot == 0:
                     print(space+"┇", end="")
                 else:
-                    for key, val in self.dic_player.items():
+                    for key, val in self.dict_player.items():
                         if slot == key.number:
                             print(f"{val[-1].symbol:^3}"+"┇", end="")
                         else:
@@ -68,7 +99,7 @@ class Board:
 
     def update_board(self, number):
         """The function to update game board"""
-        for key, val in self.dic_player.items():
+        for key, val in self.dict_player.items():
             i = -1
             while True:
                 if key.number == number:

@@ -23,7 +23,7 @@ class Item:
 
     @property
     def symbol(self):
-        """Set a symbol of item"""
+        """symbol property"""
         return self.__symbol
 
     @symbol.setter
@@ -33,7 +33,7 @@ class Item:
 
     @property
     def column(self):
-        """Set a column of item"""
+        """column property"""
         return self.__column
 
     @column.setter
@@ -43,7 +43,7 @@ class Item:
 
     @property
     def row(self):
-        """Set a row of item"""
+        """row property"""
         return self.__row
 
     @row.setter

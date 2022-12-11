@@ -23,7 +23,7 @@ class Player:
 
     @property
     def name(self):
-        """Set a name of player"""
+        """name property"""
         return self.__name
 
     @name.setter
@@ -34,8 +34,18 @@ class Player:
         self.__name = new_name
 
     @property
+    def data(self):
+        """data property"""
+        return self.__data
+
+    @data.setter
+    def data(self, new_data):
+        """Set a data of player"""
+        self.__data = new_data
+
+    @property
     def number(self):
-        """Set a number of player"""
+        """number property"""
         return self.__number
 
     @number.setter

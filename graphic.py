@@ -5,7 +5,8 @@ class Graphic:
     This is a class to display game in turtle graphic.
 
     Attributes:
-        board (Board): The board of game
+        board (Board): The board of game.
+        turtle (Turtle): The turtle for write game.
     """
     def __init__(self, board):
         """
@@ -15,10 +16,20 @@ class Graphic:
             board (Board): The board of game
         """
         self.board = board
-        self.turtle = turtle.Turtle(visible=None)
-        self.screen = turtle.Screen()
-        self.screen.title("4 Item Arranged Game")
-        self.screen.setup(width=600, height=700)
+        self.turtle = turtle.Turtle(visible=False)
+        screen = turtle.Screen()
+        screen.title("4 Item Arranged Game")
+        screen.setup(width=600, height=700)
+
+    @property
+    def board(self):
+        """board property"""
+        return self.__board
+
+    @board.setter
+    def board(self, new_board):
+        """Set board"""
+        self.__board = new_board
 
     def display_board(self):
         """The function to display empty game board."""
@@ -55,7 +66,7 @@ class Graphic:
 
     def display_item(self):
         """The function to display item in game board."""
-        for val in self.board.dic_player.values():
+        for val in self.board.dict_player.values():
             dis_c = (600 / (self.board.column + 2))
             dis_r = (700 / (self.board.row + 4))
             set_c = -300 + (dis_c / 2)

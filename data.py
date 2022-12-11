@@ -16,6 +16,16 @@ class Data:
         """
         self.filename = filename
 
+    @property
+    def filename(self):
+        """filename property"""
+        return self.__filename
+
+    @filename.setter
+    def filename(self, new_filename):
+        """Set filename"""
+        self.__filename = new_filename
+
     def create_account(self, name, password):
         """The function to create account."""
         new_account = {
@@ -75,6 +85,6 @@ class Data:
             return data[name]
         except FileNotFoundError:
             print("No data file fount")
+            return False
         except KeyError:
             return False
-

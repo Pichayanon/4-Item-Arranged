@@ -29,23 +29,21 @@ def set_player(data: Data, number: int, name_not_use='') -> Player:
             player_ = Player(player_name, data, number)
             if player_.login(password):
                 return player_
-            else:
-                continue
+            continue
         else:
             new_player = input("You are new player, create new account Y/N: ")
-            if new_player not in ['Y', 'N']:
+            while new_player not in ['Y', 'N']:
                 new_player = input("Try again, create new account Y/N: ")
             if new_player == 'Y':
                 password = str(input(f"{player_name}, Enter password: "))
                 player_ = Player(player_name, data, number)
                 player_.register(password)
                 return player_
-            elif new_player == 'N':
-                continue
+            continue
 
-def set_many_player() -> int:
+def set_many_player() -> str:
     """Let the player choose the number of players and return it"""
-    print(f"▶ How many player do you want to play")
+    print("▶ How many player do you want to play")
     print("1 Player")
     print("2 Player")
     m_player = input("Please select the number of players: ")
@@ -61,20 +59,9 @@ def set_symbol(symbol_lst: list[str]) -> str:
         symbol_selected = str(input(f"Enter symbol {symbol_lst}: "))
     return symbol_selected
 
-def set_choice_information() -> int:
-    """Let the player choose choice to show information and return it"""
-    print("▶ Please select choice")
-    print("1. Show win,lose and draw game")
-    print("2. Show winrate")
-    i_choice = input("Please select choice: ")
-    while i_choice not in ['1', '2']:
-        i_choice = input("Incorrect choice, please select again: ")
-    print()
-    return i_choice
-
-def set_board() -> int:
+def set_board() -> [int]:
     """Let the player choose size of board and return it"""
-    print(f"▶ What size of board do you want to play")
+    print("▶ What size of board do you want to play")
     print("1. 6x7")
     print("2. 7x8")
     print("3. 8x9 ")
@@ -85,11 +72,13 @@ def set_board() -> int:
     print()
     if size_selected == '1':
         row_, column_ = 6, 7
+        return row_, column_
     elif size_selected == '2':
         row_, column_ = 7, 8
+        return row_, column_
     elif size_selected == '3':
         row_, column_ = 8, 9
-    return row_, column_
+        return row_, column_
 
 def play_1player(data_):
     """Play this game with 1 player"""
@@ -125,7 +114,7 @@ def play_1player(data_):
         # set item of player
         item = Item(symbol, colum)
         # update board
-        board.dic_player[player].append(item)
+        board.dict_player[player].append(item)
         board.update_board(1)
         board.display_board()
         graphic.display_item()
@@ -149,7 +138,7 @@ def play_1player(data_):
         # set item of bot
         item_bot = Item(symbol_bot, colum_bot)
         # update board
-        board.dic_player[bot].append(item_bot)
+        board.dict_player[bot].append(item_bot)
         board.update_board(99999)
         board.display_board()
         graphic.display_item()
@@ -208,7 +197,7 @@ def play_2player(data_):
         # set item of player 1
         item1 = Item(symbol1, colum1)
         # update board
-        board.dic_player[player1].append(item1)
+        board.dict_player[player1].append(item1)
         board.update_board(1)
         board.display_board()
         graphic.display_item()
@@ -236,7 +225,7 @@ def play_2player(data_):
         # set item of player 2
         item2 = Item(symbol2, colum2)
         # update board
-        board.dic_player[player2].append(item2)
+        board.dict_player[player2].append(item2)
         board.update_board(2)
         board.display_board()
         graphic.display_item()
@@ -260,7 +249,19 @@ def play_2player(data_):
             data_.update_account(player2, "draw")
             break
 
+def set_choice_information() -> str:
+    """Let the player choose choice to show information and return it"""
+    print("▶ Please select choice")
+    print("1. Show win,lose and draw game")
+    print("2. Show winrate")
+    i_choice = input("Please select choice: ")
+    while i_choice not in ['1', '2']:
+        i_choice = input("Incorrect choice, please select again: ")
+    print()
+    return i_choice
 
+
+# Play game
 print("▶ Welcome to 4 Item Arranged Game")
 print("1. Play Game")
 print("2. Show Information Account ")
@@ -269,7 +270,6 @@ while choice not in ['1', '2']:
     print("Incorrect choice")
     choice = input("Please select choice again: ")
 print()
-# Play game
 if choice == '1':
     data_play = Data("data.json")  # set file that collect data
     many_players = ''
@@ -292,8 +292,8 @@ elif choice == '2':
         # check that not equal 1, 2 or not.
         while information_selected not in ['1', '2']:
             information_selected = set_choice_information()
-            player_information = Player(name, data_play)
-        # show win, lose and draw count
+        player_information = Player(name, data_play)
+        # show win, lose and draw count.
         if information_selected == '1':
             print(f"▶ Name: {player_information.name}")
             print(f"Win game: {player_information.get_win()}.")
