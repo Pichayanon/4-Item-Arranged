@@ -16,11 +16,11 @@ class Data:
         """
         self.filename = filename
 
-    def login(self, player):
-        """The function for player login."""
+    def create_account(self, name, password):
+        """The function to create account."""
         new_account = {
-            player.name: {
-                "password": player.password,
+            name: {
+                "password": password,
                 "score": {
                     "win": 0,
                     "lose": 0,
@@ -35,25 +35,9 @@ class Data:
             with open(self.filename, "w") as data_file:
                 json.dump(new_account, data_file, indent=4)
         else:
-            if player.name in list(data.keys()):
-                if data[player.name]["password"] == player.password:
-                    print("╔.★.═════════════════════════════════════════════╗")
-                    print(f"{'Login success':^51}")
-                    print(f"{'Welcome back '+player.name:^51}")
-                    print("╚═════════════════════════════════════════════.★.╝")
-                    return True
-                print("Incorrect password")
-                return False
-            else:
-                print("╔.★.═════════════════════════════════════════════╗")
-                print(f"{'Create new account':^51}")
-                print(f"{'Name: '+player.name:^51}")
-                print(f"{'Password: '+player.password:^51}")
-                print("╚═════════════════════════════════════════════.★.╝")
-                data.update(new_account)
-                with open(self.filename, "w") as data_file:
-                    json.dump(data, data_file, indent=4)
-                return True
+            data.update(new_account)
+            with open(self.filename, "w") as data_file:
+                json.dump(data, data_file, indent=4)
 
     def update_account(self, name, status):
         """The function for update account of player."""
@@ -77,37 +61,20 @@ class Data:
         try:
             with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
+            return name in list(data.keys())
         except FileNotFoundError:
-            print("No data file fount")
-        else:
-            if name in list(data.keys()):
-                return True
+            return False
+        except KeyError:
             return False
 
-    def get_password(self, name):
-        """The function to get password of account"""
+    def get_data(self, name):
+        """The function for get data of account"""
         try:
             with open(self.filename, "r") as data_file:
                 data = json.load(data_file)
+            return data[name]
         except FileNotFoundError:
             print("No data file fount")
-        else:
-            if name in list(data.keys()):
-                return data[name]["password"]
-            else:
-                print("No name account")
+        except KeyError:
+            return False
 
-    def get_score_account(self, name, status):
-        """The function to get score of account."""
-        try:
-            with open(self.filename, "r") as data_file:
-                data = json.load(data_file)
-        except FileNotFoundError:
-            print("No data file fount")
-        else:
-            if status == "win":
-                return data[name]["score"]["win"]
-            if status == "lose":
-                return data[name]["score"]["lose"]
-            if status == "draw":
-                return data[name]["score"]["draw"]

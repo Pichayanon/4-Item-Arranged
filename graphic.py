@@ -17,10 +17,10 @@ class Graphic:
         self.board = board
         self.turtle = turtle.Turtle(visible=None)
         self.screen = turtle.Screen()
-        self.screen.title("4 Arranged Item Game")
+        self.screen.title("4 Item Arranged Game")
         self.screen.setup(width=600, height=700)
 
-    def create_board(self):
+    def display_board(self):
         """The function to display empty game board."""
         self.turtle.penup()
         dis_c = (600 / (self.board.column + 2))
@@ -53,7 +53,7 @@ class Graphic:
             self.turtle.penup()
             self.turtle.setposition(set_c, set_r)
 
-    def display_board(self):
+    def display_item(self):
         """The function to display item in game board."""
         for val in self.board.dic_player.values():
             dis_c = (600 / (self.board.column + 2))

@@ -5,22 +5,19 @@ class Player:
 
     Attributes:
         name (str): Name of player.
-        password (str): Password of player.
         data (Data): Data to store player account.
         number (int): Number of players for playing the game.
     """
-    def __init__(self, name, password, data, number=0):
+    def __init__(self, name, data, number=0):
         """
         The constructor for Player class.
 
         Parameters:
             name (str): Name of player.
-            password (str): Password of player.
             data (Data): Data to store player account.
             number (int): Number of players for playing the game.
         """
         self.name = name
-        self.password = password
         self.data = data
         self.number = number
 
@@ -37,18 +34,6 @@ class Player:
         self.__name = new_name
 
     @property
-    def password(self):
-        """Set a password of player"""
-        return self.__password
-
-    @password.setter
-    def password(self, new_password):
-        """Set a password of player"""
-        if new_password == "":
-            raise ValueError("Password is empty")
-        self.__password = new_password
-
-    @property
     def number(self):
         """Set a number of player"""
         return self.__number
@@ -60,21 +45,44 @@ class Player:
             raise TypeError("Number must be integer ")
         self.__number = new_number
 
+    def login(self, password):
+        """The function to login player."""
+        data_account = self.data.get_data(self.name)
+        if data_account["password"] == password:
+            print("------------ Login success -------------")
+            print(f"{'Welcome back '+self.name:^40}")
+            print("----------------------------------------")
+            return True
+        print("Incorrect password")
+        return False
+
+    def register(self, password):
+        """The function to register player."""
+        print("---------- Create new account ----------")
+        print(f"{'Name: '+self.name:^40}")
+        print(f"{'Password: '+password:^40}")
+        print("----------------------------------------")
+        self.data.create_account(self.name, password)
+
     def get_win(self):
         """The function to get win count of player."""
-        return self.data.get_score_account(self.name, 'win')
+        data_account = self.data.get_data(self.name)
+        return data_account["score"]["win"]
 
     def get_lose(self):
         """The function to get lose count of player."""
-        return self.data.get_score_account(self.name, 'lose')
+        data_account = self.data.get_data(self.name)
+        return data_account["score"]["lose"]
 
     def get_draw(self):
         """The function to get draw count of player."""
-        return self.data.get_score_account(self.name, 'draw')
+        data_account = self.data.get_data(self.name)
+        return data_account["score"]["draw"]
 
     def get_winrate(self):
         """The function to get winrate of player."""
-        win = self.data.get_score_account(self.name, "win")
-        lose = self.data.get_score_account(self.name, "lose")
-        draw = self.data.get_score_account(self.name, "draw")
+        data_account = self.data.get_data(self.name)
+        win = data_account["score"]["win"]
+        lose = data_account["score"]["lose"]
+        draw = data_account["score"]["draw"]
         return (win / (win + lose + draw)) * 100
