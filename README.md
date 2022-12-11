@@ -13,7 +13,7 @@ When entering the game, the game will let you to choose whether to play the game
 ## Program's Requirement
 There are **3** Python Modules & Libraries required in this program.
 * [turtle](https://docs.python.org/3/library/turtle.html) : Used for write board in turtle graphic.
-* [json](https://docs.python.org/3/library/json.html?highlight=json#module-json) : Used for stores player information
+* [json](https://docs.python.org/3/library/json.html?highlight=json#module-json) : Used for stores player information.
 * [random](https://docs.python.org/3/library/random.html) : Used for random column of bot.
 
 ## Program Design
