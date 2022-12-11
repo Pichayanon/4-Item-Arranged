@@ -11,7 +11,7 @@ When entering the game, the game will let you to choose whether to play the game
   * When the player enters the game, the game will let the player to enter a name. If there is information of the player, the game will let  players to choose whether to show the number of wins, losses and draws or show the winrate. If there is no information of the player, the game will show No account in data.
 
 ## Program's Requirement
-There are **2** Python Modules & Libraries required in this program.
+There are **3** Python Modules & Libraries required in this program.
 * [turtle](https://docs.python.org/3/library/turtle.html) : Used for write board in turtle graphic.
 * [json](https://docs.python.org/3/library/json.html?highlight=json#module-json) : Used for stores player information
 * [random](https://docs.python.org/3/library/random.html) : Used for random column of bot.
@@ -24,7 +24,7 @@ There are **2** Python Modules & Libraries required in this program.
 * **Board** : class for create board.
 * **Graphic** : class for display board in turtle graphic.
 ### Integrate all of the classes
-* In the main program. When the game starts, game will create a player by **class Player** and store the information in **class Data**. The player and item will be used in the **class Board** in the form of the dictionary, the key is the player, and the value is the list of items to play the game. **class Board** will create board and use **class Graphic** to show borad in turtle graphic. When a player selects a column of an item, the game will create an item by **class Item** and store the item in that player's list of items. After each round, the **class Board** checks if there is a winner or not. If there is a winner then the game is over and the player's score is recorded in **class Data**.
+* In the main program. When the game starts, game will create a player by **class Player** and store the information in **class Data**. The player and item will be used in the **class Board** in the form of the dictionary, the key is the player, and the value is the list of items to play the game. **class Board** will create board and use **class Graphic** to show board in turtle graphic. When a player selects a column of an item, the game will create an item by **class Item** and store the item in that player's list of items. After each round, the **class Board** checks if there is a winner or not. If there is a winner then the game is over and the player's score is recorded in **class Data**.
 
 ## Code Structure
 * [main.py](main.py) : Run main program.
