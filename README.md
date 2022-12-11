@@ -1,6 +1,6 @@
 # 4 Item Arranged
 ## Project Overview and feature.
-4 Item Arranged is a game that allows players to arrange 4 items next to each other vertically, horizontally or diagonally. The player can only choose a column because the item will always fall by the gravity of the world to the lowest row first. If any player can arrange 4 items next to each other first, , it will be considered the winner of this game.
+4 Item Arranged is a game that allows players to arrange 4 items next to each other vertically, horizontally or diagonally. The player can only choose a column because the item will always fall by the gravity of the world to the lowest row first. If any player can arrange 4 items next to each other first, it will be considered the winner of this game.
 
 ## How to play this game?
 When entering the game, the game will let you to choose whether to play the game or show the account's information. 
